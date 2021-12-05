@@ -2,16 +2,23 @@
 
 namespace App\Entity;
 
+use DateTimeImmutable;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
-use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Serializable;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Serializer\Annotation\Ignore;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @Vich\Uploadable
  */
-class User implements UserInterface,PasswordAuthenticatedUserInterface
+class User implements UserInterface,PasswordAuthenticatedUserInterface, Serializable
 {
     /**
      * @ORM\Id
@@ -39,9 +46,28 @@ class User implements UserInterface,PasswordAuthenticatedUserInterface
     public $confirm_password;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * NOTE: This is not a mapped field of entity metadata, just a simple property.
+     * 
+     * @Vich\UploadableField(mapping="pictures", fileNameProperty="imageName")
+     * @Ignore
+     * 
+     * @var File|null
      */
-    private $picture;
+    private $imageFile;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     *
+     * @var string|null
+     */
+    private $imageName;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     *
+     * @var \DateTimeInterface|null
+     */
+    private $updatedAt;
 
     public function getId(): ?int
     {
@@ -114,16 +140,56 @@ class User implements UserInterface,PasswordAuthenticatedUserInterface
         return ['ROLE_USER'];
     }
 
-    public function getPicture(): ?string
+    public function setImageFile(?File $imageFile = null): void
     {
-        return $this->picture;
+        $this->imageFile = $imageFile;
+
+        if (null !== $imageFile) {
+            // It is required that at least one field changes if you are using doctrine
+            // otherwise the event listeners won't be called and the file is lost
+            $this->updatedAt = new \DateTimeImmutable();
+        }
     }
 
-    public function setPicture(?string $picture): self
+    public function getImageFile(): ?File
     {
-        $this->picture = $picture;
-
-        return $this;
+        return $this->imageFile;
     }
 
+    public function setImageName(?string $imageName): void
+    {
+        $this->imageName = $imageName;
+    }
+
+    public function getImageName(): ?string
+    {
+        return $this->imageName;
+    }
+
+     /** @see \Serializable::serialize() */
+     public function serialize()
+     {
+         return serialize(array(
+             $this->id,
+             $this->username,
+             $this->password,
+             $this->email,
+             $this->updatedAt,
+             $this->imageName
+         ));
+     }
+ 
+     /** @see \Serializable::unserialize() */
+     public function unserialize($serialized)
+     {
+         list (
+            $this->id,
+            $this->username,
+            $this->password,
+            $this->email,
+            $this->updatedAt,
+            $this->imageName
+         ) = unserialize($serialized);
+     }
 }
+    
