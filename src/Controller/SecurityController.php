@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegistrationType;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -36,6 +37,9 @@ class SecurityController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $hash = $encoder->hashPassword($user, $user->getPassword());
             $user->setPassword($hash);
+            
+            // Génération du token d'activation
+            $user->setTokenActivation(md5(uniqid()));
 
             $manager->persist($user);
             $manager->flush();
@@ -64,4 +68,30 @@ class SecurityController extends AbstractController
         // controller can be blank: it will never be called!
         throw new \Exception('Don\'t forget to activate logout in security.yaml');
     }
+
+    /**
+ * @Route("/activation/{token}", name="activation")
+ */
+public function activation(EntityManagerInterface $manager, $token, UserRepository $user)
+{
+    // On recherche si un utilisateur avec ce token existe dans la base de données
+    $user = $user->findOneBy(['token_activation' => $token]);
+
+    // Si aucun utilisateur n'est associé à ce token
+    if(!$user){
+        // On renvoie une erreur 404
+        throw $this->createNotFoundException('Cet utilisateur n\'existe pas');
+    }
+
+    // On supprime le token
+    $user->setTokenActivation(null);
+    $manager->persist($user);
+    $manager->flush();
+
+    // On génère un message
+    $this->addFlash('message', 'Utilisateur activé avec succès');
+
+    // On retourne à l'accueil
+    return $this->redirectToRoute('/');
+}
 }

@@ -69,6 +69,11 @@ class User implements UserInterface,PasswordAuthenticatedUserInterface, Serializ
      */
     private $updatedAt;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $token_activation;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -190,6 +195,18 @@ class User implements UserInterface,PasswordAuthenticatedUserInterface, Serializ
             $this->updatedAt,
             $this->imageName
          ) = unserialize($serialized);
+     }
+
+     public function getTokenActivation(): ?string
+     {
+         return $this->token_activation;
+     }
+
+     public function setTokenActivation(?string $token_activation): self
+     {
+         $this->token_activation = $token_activation;
+
+         return $this;
      }
 }
     
