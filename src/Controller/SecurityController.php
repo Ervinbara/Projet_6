@@ -26,7 +26,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/inscription", name="security_registration")
      */
-    public function registration(Request $request, EntityManagerInterface $manager, UserPasswordHasherInterface $encoder) //PasswordHasherInterface $encoder
+    public function registration(Request $request, EntityManagerInterface $manager, UserPasswordHasherInterface $encoder)
     {
         $user = new User();
         // Instantiation du formulaire de création de compte, et on relie les champs du formulaire aux champs d'un user
@@ -70,28 +70,28 @@ class SecurityController extends AbstractController
     }
 
     /**
- * @Route("/activation/{token}", name="activation")
- */
-public function activation(EntityManagerInterface $manager, $token, UserRepository $user)
-{
-    // On recherche si un utilisateur avec ce token existe dans la base de données
-    $user = $user->findOneBy(['token_activation' => $token]);
+     * @Route("/activation/{token}", name="activation")
+     */   
+    public function activation(EntityManagerInterface $manager, $token, UserRepository $user)
+    {
+        // On recherche si un utilisateur avec ce token existe dans la base de données
+        $user = $user->findOneBy(['token_activation' => $token]);
 
-    // Si aucun utilisateur n'est associé à ce token
-    if(!$user){
-        // On renvoie une erreur 404
-        throw $this->createNotFoundException('Cet utilisateur n\'existe pas');
+        // Si aucun utilisateur n'est associé à ce token
+        if(!$user){
+            // On renvoie une erreur 404
+            throw $this->createNotFoundException('Cet utilisateur n\'existe pas');
+        }
+
+        // On supprime le token
+        $user->setTokenActivation(null);
+        $manager->persist($user);
+        $manager->flush();
+
+        // On génère un message
+        $this->addFlash('message', 'Utilisateur activé avec succès');
+
+        // On retourne à l'accueil
+        return $this->redirectToRoute('/');
     }
-
-    // On supprime le token
-    $user->setTokenActivation(null);
-    $manager->persist($user);
-    $manager->flush();
-
-    // On génère un message
-    $this->addFlash('message', 'Utilisateur activé avec succès');
-
-    // On retourne à l'accueil
-    return $this->redirectToRoute('/');
-}
 }
