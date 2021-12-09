@@ -4,9 +4,11 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegistrationType;
+use Symfony\Component\Mime\Email;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -26,7 +28,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/inscription", name="security_registration")
      */
-    public function registration(Request $request, EntityManagerInterface $manager, UserPasswordHasherInterface $encoder)
+    public function registration(Request $request, EntityManagerInterface $manager, UserPasswordHasherInterface $encoder, MailerInterface $mailer)
     {
         $user = new User();
         // Instantiation du formulaire de création de compte, et on relie les champs du formulaire aux champs d'un user
@@ -43,6 +45,20 @@ class SecurityController extends AbstractController
 
             $manager->persist($user);
             $manager->flush();
+
+            // Envoi du mail d'activation du compte à l'utilisateur
+        //     $email = (new Email())
+        //     ->from('lokidog1797@gmail.com')
+        //     ->to('ervinbara17@gmail.com')
+        //     //->cc('cc@example.com')
+        //     //->bcc('bcc@example.com')
+        //     //->replyTo('fabien@example.com')
+        //     //->priority(Email::PRIORITY_HIGH)
+        //     ->subject('Time for Symfony Mailer!')
+        //     ->text('Sending emails is fun again!')
+        //     ->html('<p>See Twig integration for better HTML integration!</p>');
+
+        // $mailer->send($email);
 
             return $this->redirectToRoute('security_login');
         }
