@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+{# {% form_theme form 'bootstrap_5_layout.html.twig' %} #}
+
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="../assets/css/navbar_other_page.css"/>
+{% endblock %}
+
+{% block body %}
+    <h1>Formulaire d'inscription</h1>
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button type="submit" class="btn btn-primary">Inscription</button>
+    {{ form_end(form) }}
+
+{% endblock %}
