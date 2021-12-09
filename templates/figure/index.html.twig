@@ -1,9 +1,8 @@
 {% extends 'base.html.twig' %}
 
-
 {% block banner %}
     <section class="banner">    
-        <div class="container">
+         <div class="container">
             <div class="col-sm-6">
                 <h2>Bienvenue</h2>
                 <p>Snowboard</p>
@@ -16,4 +15,17 @@
 {% endblock %}
 
 {% block body %}
+    <p> Figures </p>
+
+    {% for figure in figures %}
+        <div class="figure">
+            {{ figure.name }}
+                {% for image in figure.images %}
+                    <div>
+                        <img src="{{ asset('/images/figures/uploads/'~image.name) }}" alt="" width="150">
+                    </div>
+                {% endfor %}
+        </div>
+    {% endfor %}
+
 {% endblock %}
