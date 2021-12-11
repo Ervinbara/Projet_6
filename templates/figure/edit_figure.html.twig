@@ -1,10 +1,12 @@
 {% extends 'base.html.twig' %}
 
+{% block stylesheets %}
+<link rel="stylesheet" type="text/css" href="../assets/css/navbar_other_page.css"/>
+{% endblock %}
+
 {% block body %}
 
 <div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
     {{ form_start(form) }}
     {{ form_widget(form) }}
     <button type="submit" class="btn btn-primary">Ajouter</button>

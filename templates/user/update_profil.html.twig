@@ -1,18 +1,21 @@
 {% extends 'base.html.twig' %}
 {% block stylesheets %}
     <link rel="stylesheet" type="text/css" href="../assets/css/navbar_other_page.css"/>
+    <link rel="stylesheet" type="text/css" href="../assets/css/profil_picture.css"/>
 {% endblock %}
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
 <div class="example-wrapper">
     <h1>Modifier mes informations</h1>
     
-    {{form(form)}}
-    Mettre la photo de profil, avec un curseur pour modifier ? 
+    {{ form_start(form) }}
+    {{ form_widget(form.username) }}
+    {{ form_widget(form.email) }}
+    <div class="profil_picture">
+        {{ form_widget(form.imageFile) }}
+    </div>
+    {{ form_end(form) }}
+    {# Mettre la photo de profil, avec un curseur pour modifier ?  #}
     
 </div>
 {% endblock %}
