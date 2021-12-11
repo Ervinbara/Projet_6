@@ -28,11 +28,14 @@ class FigureController extends AbstractController
     }
 
     /**
-     * @Route("/figure", name="AddFigure")
+     * @Route("/figure/new", name="add_figure")
+     * @Route("/figure/{id}/edit", name="edit_figure")
      */
-    public function addFigure(Request $request, EntityManagerInterface $manager)
+    public function form(Figure $figure = null, Request $request, EntityManagerInterface $manager)
     {
-        $figure = new Figure();
+        if(!$figure) {
+            $figure = new Figure();
+        }
         $form = $this->createForm(FigureType::class, $figure);
 
         $form->handleRequest($request);
@@ -60,12 +63,25 @@ class FigureController extends AbstractController
             $manager->persist($figure);
             $manager->flush();
         
-            return $this->redirectToRoute('/');
+            return $this->redirectToRoute('figure_show', ['id' => $figure->getId()]);
         }
 
         return $this->render('figure/edit_figure.html.twig', [
             'controller_name' => 'FigureController',
             'form' => $form->createView(),
+        ]);
+    }
+
+
+    /**
+     * TODO : Voir pourquoi après le clique sur le lien "Voir plus", il y a une erreur d'affichage
+     * @Route("/show_figure/{id}", name="figure_show")
+     */
+    public function figure_show(Figure $figure, Request $request, EntityManagerInterface $manager,FigureRepository $repo)
+    {
+        $figure = $repo->find($figure);
+        return $this->render('figure/figure_show.html.twig',[
+            'figure' => $figure,
         ]);
     }
 }

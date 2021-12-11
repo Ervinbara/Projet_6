@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+{% endblock %}
+
+{% block body %}
+
+<div class="example-wrapper">
+    <h2>Trick : {{ figure.name }}</h2>
+    <h3>Description: {{ figure.description }}</h3>
+    <h3><a class="nav-link" href="{{ path('edit_figure',{'id': figure.id}) }}">Modifier</a>
+    <div class="figure_img">
+        {% for image in figure.images %}
+            <div>
+                <img src="{{ asset('/images/figures/uploads/'~image.name) }}" alt="figure" width="150">
+            </div>
+        {% endfor %} 
+    </div>
+</div>
+{% endblock %}
