@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block banner %}
+    <section class="banner">    
+         <div class="container">
+            <div class="col-sm-6">
+                <h2>Bienvenue</h2>
+                <p>Snowboard</p>
+                <br/>
+                <a href="#ancre" class="btn btn-primary">Voir plus</a>
+                <a class="btn btn-success" href="./images/cv.pdf">Lien vers mon cv</a>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block body %}
+    <p> Figures </p>
+
+    <div class="row">
+        {% for figure in figures %}
+            <div class="figure">
+                {{ figure.name }}
+                {# {{ dump(figure) }} #}
+                    {# Trouver une méthode pour récupérer le premier elements d'un tableau twig  #}
+                    {# {% for image in figure.images %}
+                        <div>
+                            <img src="{{ asset('/images/figures/uploads/'~image.name) }}" alt="figure" width="150">
+                        </div>
+                    {% endfor %} #}
+                    <a href="{{ path('figure_show', {'id': figure.id}) }}">Voir plus</a>
+                    <button type="button" class="btn btn-primary">Modifier</button>
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}

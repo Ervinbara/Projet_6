@@ -17,15 +17,6 @@ class SecurityController extends AbstractController
 {
 
     /**
-    * A déplacer dans un controller plus parlant 
-    * @Route("/", name="/")
-    */
-    public function index()
-    {
-        return $this->render('security/index.html.twig',[]);
-    }
-
-    /**
      * @Route("/inscription", name="security_registration")
      */
     public function registration(Request $request, EntityManagerInterface $manager, UserPasswordHasherInterface $encoder, MailerInterface $mailer)

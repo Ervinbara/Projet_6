@@ -1,0 +1,9 @@
+.profil_picture img{
+  width: 250px;
+  border-radius: 50%;
+  height: 250px;
+}
+
+.profil{
+  text-align: center;
+}
