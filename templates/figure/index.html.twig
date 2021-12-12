@@ -28,8 +28,9 @@
                             <img src="{{ asset('/images/figures/uploads/'~image.name) }}" alt="figure" width="150">
                         </div>
                     {% endfor %} #}
+                    </br>
                     <a href="{{ path('figure_show', {'id': figure.id}) }}">Voir plus</a>
-                    <button type="button" class="btn btn-primary">Modifier</button>
+                    <a class="nav-link" href="{{ path('edit_figure',{'id': figure.id}) }}">Modifier</a>
             </div>
         {% endfor %}
     </div>
