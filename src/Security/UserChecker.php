@@ -25,6 +25,7 @@ class UserChecker implements UserCheckerInterface
 
         if (!$user->getActive()) {
             // the message passed to this exception is meant to be displayed to the user
+            // Afficher le message au dessus du formulaire
             throw new CustomUserMessageAccountStatusException('Le compte n\'est pas actif');
         }
     }

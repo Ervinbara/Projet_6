@@ -79,7 +79,9 @@ class SecurityController extends AbstractController
         $date = new \DateTime(); 
 
         if($date > $user->getTokenExpiration()){
-            throw new \RuntimeException('Le Token n\'est plus valide');
+            // throw new \RuntimeException('Le Token n\'est plus valide');
+            $this->addFlash('warning', 'Le Token n\'est plus valide');
+            return $this->redirectToRoute('security_login');
             // TODO : Proposer un ré-envoi de mail d'activation
         }
         // On supprime le token
@@ -88,10 +90,8 @@ class SecurityController extends AbstractController
         $manager->flush();
 
         // On génère un message
-        $this->addFlash('message', 'Compte activé avec succès');
-
-        // On retourne à l'accueil
-        return $this->redirectToRoute('home');
+        $this->addFlash('success', 'Compte activé avec succès');
+        return $this->redirectToRoute('security_login');
     }
 
     /**
