@@ -45,17 +45,14 @@ class SecurityController extends AbstractController
 
             // Envoi du mail d'activation du compte à l'utilisateur
             $email = (new Email())
-            ->to('ervinbara17@gmail.com')
-            //->cc('cc@example.com')
-            //->bcc('bcc@example.com')
-            //->replyTo('fabien@example.com')
-            //->priority(Email::PRIORITY_HIGH)
-            ->subject('Time for Symfony Mailer!') 
-            ->text('Sending emails is fun again!')
-            ->html($twig->render('emails/activation.html.twig', ['token' => $user->getTokenActivation()] ));
+                ->to('ervinbara17@gmail.com')
+                ->subject('Time for Symfony Mailer!') 
+                ->text('Sending emails is fun again!')
+                ->html($twig->render('emails/activation.html.twig', ['token' => $user->getTokenActivation()] ));
+            $mailer->send($email);
 
-        $mailer->send($email);
-
+            // Message flash 
+            $this->addFlash('success', 'Le compte est crée, vous allez recevoir un e-mail pour valider votre compte.');
             return $this->redirectToRoute('security_login');
         }
 
@@ -91,7 +88,7 @@ class SecurityController extends AbstractController
         $manager->flush();
 
         // On génère un message
-        $this->addFlash('message', 'Utilisateur activé avec succès');
+        $this->addFlash('message', 'Compte activé avec succès');
 
         // On retourne à l'accueil
         return $this->redirectToRoute('home');
