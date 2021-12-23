@@ -2,21 +2,24 @@
 
 namespace App\Entity;
 
+use DateTime;
+use Serializable;
 use DateTimeImmutable;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
-use Serializable;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Serializer\Annotation\Ignore;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @Vich\Uploadable
+ * @UniqueEntity(fields={"email"}, message="Vous avez déjà un compte !")
  */
 class User implements UserInterface,PasswordAuthenticatedUserInterface, Serializable
 {
@@ -73,6 +76,16 @@ class User implements UserInterface,PasswordAuthenticatedUserInterface, Serializ
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $token_activation;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $active = false;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $token_expiration;
 
     public function getId(): ?int
     {
@@ -205,8 +218,41 @@ class User implements UserInterface,PasswordAuthenticatedUserInterface, Serializ
      public function setTokenActivation(?string $token_activation): self
      {
          $this->token_activation = $token_activation;
+         $this->token_expiration = (new DateTime())->modify('+1 day');
+         return $this;
+     }
+
+     public function resetTokenActivation(): self
+     {
+         $this->token_activation = null;
+         $this->token_expiration = null;
+         return $this;
+     }
+
+     public function getActive(): ?bool
+     {
+         return $this->active;
+     }
+
+     public function setActive(bool $active): self
+     {
+         $this->active = $active;
 
          return $this;
      }
+
+     public function getTokenExpiration(): ?\DateTimeInterface
+     {
+         return $this->token_expiration;
+     }
+
+     public function setTokenExpiration(?\DateTimeInterface $token_expiration): self
+     {
+         $this->token_expiration = $token_expiration;
+
+         return $this;
+     }
+
+     
 }
     
