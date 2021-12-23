@@ -17,6 +17,7 @@
     {% endblock %}
 </head>
 
+<body>
 <header>
   <div class="container">    
     <nav class="navbar navbar-expand-lg navbar-light">
@@ -79,6 +80,11 @@
   {% endfor %}
   {% for message in app.flashes('warning') %}
     <div id ="alert" class="alert alert-warning">
+      {{ message }}
+    </div>
+  {% endfor %}
+    {% for message in app.flashes('danger') %}
+    <div id ="alert" class="alert alert-danger">
       {{ message }}
     </div>
   {% endfor %}
@@ -154,3 +160,6 @@
 {% endblock %}
 
 
+</body>
+
+</html>

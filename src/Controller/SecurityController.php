@@ -29,6 +29,7 @@ class SecurityController extends AbstractController
         Request $request,
         EntityManagerInterface $manager, 
         UserPasswordHasherInterface $encoder,
+        TokenGeneratorInterface $tokenGenerator,
         MailerInterface $mailer,
         Environment $twig)
     {
@@ -43,7 +44,9 @@ class SecurityController extends AbstractController
             $user->setPassword($hash);
             
             // Génération du token d'activation
-            $user->setTokenActivation(md5(uniqid()));
+            $token = $tokenGenerator->generateToken();
+            $user->setTokenActivation($token);
+            
 
             $manager->persist($user);
             $manager->flush(); 
@@ -86,7 +89,7 @@ class SecurityController extends AbstractController
         if($date > $user->getTokenExpiration()){
             // throw new \RuntimeException('Le Token n\'est plus valide');
             $this->addFlash('warning', 'Le Token n\'est plus valide');
-            return $this->redirectToRoute('security_login');
+            return $this->redirectToRoute('security_token_expiration');
             // TODO : Proposer un ré-envoi de mail d'activation
         }
         // On supprime le token
@@ -99,22 +102,7 @@ class SecurityController extends AbstractController
         return $this->redirectToRoute('security_login');
     }
 
-    /**
-     * @Route("/connexion", name="security_login")
-     */
-    public function login()
-    {
-        return $this->render('security/login.html.twig',[]);
-    }
 
-    /**
-     * @Route("/logout", name="app_logout", methods={"GET"})
-     */
-    public function logout(): void
-    {
-        // controller can be blank: it will never be called!
-        throw new \Exception('Don\'t forget to activate logout in security.yaml');
-    }
 
     /**
      * @Route("/forgot_password", name="security_forgot_password")
@@ -123,7 +111,7 @@ class SecurityController extends AbstractController
         Request $request, 
         UserRepository $user, 
         MailerInterface $mailer, 
-        Environment $twig, 
+        EntityManagerInterface $manager,
         TokenGeneratorInterface $tokenGenerator): Response
     {
         // On initialise le formulaire
@@ -156,9 +144,8 @@ class SecurityController extends AbstractController
             // On essaie d'écrire le token en base de données
             try{
                 $user->setTokenActivation($token);
-                $entityManager = $this->getDoctrine()->getManager();
-                $entityManager->persist($user);
-                $entityManager->flush();
+                $manager->persist($user);
+                $manager->flush();
             } catch (\Exception $e) {
                 $this->addFlash('warning', $e->getMessage());
                 return $this->redirectToRoute('security_login');
@@ -184,6 +171,75 @@ class SecurityController extends AbstractController
 
     // On envoie le formulaire à la vue
     return $this->render('security/forgot_password.html.twig',['emailForm' => $form->createView()]);
+    }
+
+    // // // 
+
+    /**
+     * @Route("/token_expiration", name="security_token_expiration")
+     */
+    public function tokenExpiration(
+        Request $request, 
+        UserRepository $user, 
+        MailerInterface $mailer, 
+        EntityManagerInterface $manager,
+        Environment $twig,
+        TokenGeneratorInterface $tokenGenerator): Response
+    {
+        // On initialise le formulaire
+        $form = $this->createForm(ResetPasswordType::class);
+
+        // On traite le formulaire
+        $form->handleRequest($request);
+
+        // Si le formulaire est valide
+        if ($form->isSubmitted() && $form->isValid()) {
+            // On récupère les données
+            $donnees = $form->getData();
+
+            // On cherche un utilisateur ayant cet e-mail
+            $user = $user->findOneByEmail($donnees['email']);
+
+            // Si l'utilisateur n'existe pas
+            if ($user === null) {
+                // On envoie une alerte disant que l'adresse e-mail est inconnue
+                $this->addFlash('warning', 'Cette adresse e-mail est inconnue');
+                
+                // On retourne sur la page de connexion
+                return $this->redirectToRoute('security_token_expiration');
+            }
+
+            // On génère un token
+            $token = $tokenGenerator->generateToken();
+            // $user->setTokenActivation(md5(uniqid()));
+
+            // On essaie d'écrire le token en base de données
+            try{
+                $user->setTokenActivation($token);
+                $manager->persist($user);
+                $manager->flush();
+            } catch (\Exception $e) {
+                $this->addFlash('warning', $e->getMessage());
+                return $this->redirectToRoute('security_login');
+            }
+
+            // Envoi du mail d'activation du compte à l'utilisateur
+            $email = (new Email())
+                ->to('ervinbara17@gmail.com')
+                ->subject('Time for Symfony Mailer!') 
+                ->text('Sending emails is fun again!')
+                ->html($twig->render('emails/activation.html.twig', ['token' => $user->getTokenActivation()] ));
+            $mailer->send($email);
+
+            // On crée le message flash de confirmation
+            $this->addFlash('success', 'E-mail d\'activation de compte envoyé !');
+
+            // On redirige vers la page de login
+            return $this->redirectToRoute('security_login');
+        }
+
+    // On envoie le formulaire à la vue
+    return $this->render('security/token_expiration.html.twig',['emailForm' => $form->createView()]);
     }
 
 
@@ -230,5 +286,22 @@ class SecurityController extends AbstractController
             return $this->render('security/reset_password.html.twig', ['token' => $token]);
         }
 
+    }
+
+    /**
+     * @Route("/connexion", name="security_login")
+     */
+    public function login()
+    {
+        return $this->render('security/login.html.twig',[]);
+    }
+
+    /**
+     * @Route("/logout", name="app_logout", methods={"GET"})
+     */
+    public function logout(): void
+    {
+        // controller can be blank: it will never be called!
+        throw new \Exception('Don\'t forget to activate logout in security.yaml');
     }
 }

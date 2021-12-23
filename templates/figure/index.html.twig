@@ -21,16 +21,15 @@
         {% for figure in figures %}
             <div class="figure">
                 {{ figure.name }}
-                {# {{ dump(figure) }} #}
-                    {# Trouver une méthode pour récupérer le premier elements d'un tableau twig  #}
-                    {# {% for image in figure.images %}
-                        <div>
-                            <img src="{{ asset('/images/figures/uploads/'~image.name) }}" alt="figure" width="150">
-                        </div>
-                    {% endfor %} #}
-                    </br>
-                    <a href="{{ path('figure_show', {'id': figure.id}) }}">Voir plus</a>
-                    <a class="nav-link" href="{{ path('edit_figure',{'id': figure.id}) }}">Modifier</a>
+                
+                {% if figure.images | length > 0 %}
+                    <div>
+                        <img src="{{ asset('/images/figures/uploads/'~figure.images[0].name) }}" alt="figure" width="150">
+                    </div>
+                {% endif %}
+                </br>
+                <a href="{{ path('figure_show', {'id': figure.id}) }}">Voir plus</a>
+                <a class="nav-link" href="{{ path('edit_figure',{'id': figure.id}) }}">Modifier</a>
             </div>
         {% endfor %}
     </div>
