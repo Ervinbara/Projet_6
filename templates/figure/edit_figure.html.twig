@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block stylesheets %}
-<link rel="stylesheet" type="text/css" href="../assets/css/navbar_other_page.css"/>
+    <link rel="stylesheet" type="text/css" href="../assets/css/navbar_other_page.css"/>
 {% endblock %}
 
 {% block body %}
@@ -12,9 +12,15 @@
     {% for image in figure.images %}
         <div>
             <img src="{{ asset('/images/figures/uploads/'~image.name) }}" alt="figure" width="150">
+
+            <a href="{{ path('figure_delete_image', {id: image.id})}}" data-delete data-token="{{ csrf_token('delete' ~ image.id )}}">Supprimer</a>
         </div>
     {% endfor %}
     <button type="submit" class="btn btn-primary">Ajouter</button>
     {{ form_end(form) }}
-</div>
+</div> 
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="../../assets/js/images.js"></script>
 {% endblock %}
