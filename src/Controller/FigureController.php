@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Figure;
 use App\Entity\Images;
+use App\Entity\Videos;
 use App\Form\FigureType;
 use App\Repository\FigureRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -60,6 +61,15 @@ class FigureController extends AbstractController
                 $img->setName($fichier);
                 $figure->addImage($img);
             }
+
+            // $video = $form->get('videos')->getData();
+            // // Insertion des vidéos
+            // // foreach($videos as $video){                
+            //     // On crée l'image dans la base de données
+            //     $video = new Videos();
+            //     $video->setName("gaga");
+            //     $figure->addVideo($video);
+            // // }
         
             $manager->persist($figure);
             $manager->flush();

@@ -8,7 +8,8 @@
 
 <div class="example-wrapper">
     <h2>Trick : {{ figure.name }}</h2>
-    <h3>Description: {{ figure.description }}</h3>
+    <h3>Catégorie : {{ figure.category.title }}</h3>
+    <h3>Description : {{ figure.description }}</h3>
     <a class="nav-link" href="{{ path('edit_figure',{'id': figure.id}) }}">Modifier</a>
     <div class="figure_img">
         {% for image in figure.images %}
