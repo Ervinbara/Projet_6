@@ -19,4 +19,52 @@
         {% endfor %} 
     </div>
 </div>
+
+<section id="commentaires">
+        <h2>{{ figure.comments | length }}Commentaire </h2>
+        {% for comment in figure.comments %} <!--Pour chaque commentaire dans les commentaire de l'article-->
+            <div class="comment container">
+                <div class="info container">
+                    <div class="username">
+                        {{comment.author}} 
+                    </div>
+                    <div class="post_date">
+                        {{comment.createdAt | date('d/m/Y')}}
+                    </div>
+                </div>
+                <div class="text container">
+                    <div class="text">
+                        {{comment.content | raw}}
+                        {# {% if app.user %}
+                            {% if comment.report == 0 %}
+                                <a href="{{ path('report',{'id': comment.id}) }}" class="report"><acronym title="Signalé ce commentaire ?"><i class="far fa-flag"></i></acronym>
+                                </a> 
+                            {% else %}
+                            <div class="report"><acronym title="Commentaire signalé, l'admin s'en occupe"><i class="fas fa-flag"></i></acronym></div>
+                            {% endif %}
+                        {% endif %} #}
+                    </div> 
+                </div>
+                
+            </div>
+            {# <div class="js-report" data-is-authenticated="{{ comment.id }}"></div> #}
+        {% endfor %}
+        
+        <h2>Laisse un commentaire</h2>
+        {% if app.user %}
+        
+        {{form_start(commentForm)}}
+
+        {{form_row(commentForm.content,{'attr': {'placeholder':"Contenu"} }) }}
+
+        <button type="submit" class="btn send">Envoyer</button>
+        {{form_end(commentForm)}}
+        {% else %}
+            <h3>Connexion requise</h3>
+            <p><a href="{{path('security_login')}}" class="btn btn-primary">Connexion</a>
+            ou <a href="{{path('security_registration')}}" class="btn btn-primary">Pas de compte ?</a>
+            </p>
+            
+        {% endif %}
+    </section>
 {% endblock %}

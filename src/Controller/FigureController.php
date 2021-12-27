@@ -2,11 +2,15 @@
 
 namespace App\Controller;
 
+use DateTime;
 use App\Entity\Figure;
 use App\Entity\Images;
 use App\Entity\Videos;
+use App\Entity\Comment;
 use App\Form\FigureType;
+use App\Form\CommentType;
 use App\Repository\FigureRepository;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -90,10 +94,30 @@ class FigureController extends AbstractController
      * @Route("/show_figure/{id}", name="figure_show")
      */
     public function figure_show(Figure $figure, Request $request, EntityManagerInterface $manager,FigureRepository $repo)
-    {
+    {   
+        $comment = new Comment();
+        
+        $form = $this->createForm(CommentType::class, $comment);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $comment->setCreatedAt(new DateTimeImmutable())
+                    ->setFigure($figure)
+                    ->setAuthor($this->getUser()->getUsername()); //Tu correspond à la figure que j'ai en variable
+            $manager->persist($comment);
+            $manager->flush();
+            $this->addFlash('success', 'Message envoyé !');
+
+            return $this->redirectToRoute('figure_show',[
+                'id' =>$figure->getId()
+            ]);
+        } 
+
         $figure = $repo->find($figure);
         return $this->render('figure/figure_show.html.twig',[
             'figure' => $figure,
+            'commentForm' => $form->createView(),
         ]);
     }
 
