@@ -2,14 +2,20 @@
 
 namespace App\Controller;
 
+use DateTime;
 use App\Entity\Figure;
 use App\Entity\Images;
+use App\Entity\Videos;
+use App\Entity\Comment;
 use App\Form\FigureType;
+use App\Form\CommentType;
 use App\Repository\FigureRepository;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class FigureController extends AbstractController
@@ -59,6 +65,15 @@ class FigureController extends AbstractController
                 $img->setName($fichier);
                 $figure->addImage($img);
             }
+
+            // $video = $form->get('videos')->getData();
+            // // Insertion des vidéos
+            // // foreach($videos as $video){                
+            //     // On crée l'image dans la base de données
+            //     $video = new Videos();
+            //     $video->setName("gaga");
+            //     $figure->addVideo($video);
+            // // }
         
             $manager->persist($figure);
             $manager->flush();
@@ -79,10 +94,56 @@ class FigureController extends AbstractController
      * @Route("/show_figure/{id}", name="figure_show")
      */
     public function figure_show(Figure $figure, Request $request, EntityManagerInterface $manager,FigureRepository $repo)
-    {
+    {   
+        $comment = new Comment();
+        
+        $form = $this->createForm(CommentType::class, $comment);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $comment->setCreatedAt(new DateTimeImmutable())
+                    ->setFigure($figure)
+                    ->setAuthor($this->getUser()->getUsername()); //Tu correspond à la figure que j'ai en variable
+            $manager->persist($comment);
+            $manager->flush();
+            $this->addFlash('success', 'Message envoyé !');
+
+            return $this->redirectToRoute('figure_show',[
+                'id' =>$figure->getId()
+            ]);
+        } 
+
         $figure = $repo->find($figure);
         return $this->render('figure/figure_show.html.twig',[
             'figure' => $figure,
+            'commentForm' => $form->createView(),
         ]);
+    }
+
+
+    /**
+     * @Route("/supprime/image/{id}", name="figure_delete_image", methods={"DELETE"})
+     */
+    public function deleteImage(Images $image, Request $request){
+        $data = json_decode($request->getContent(), true);
+
+        // On vérifie si le token est valide
+        if($this->isCsrfTokenValid('delete'.$image->getId(), $data['_token'])){
+            // On récupère le nom de l'image
+            $nom = $image->getName();
+            // On supprime le fichier
+            unlink($this->getParameter('images_directory').'/'.$nom);
+
+            // On supprime l'entrée de la base
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($image);
+            $em->flush();
+
+            // On répond en json
+            return new JsonResponse(['success' => 1]);
+        }else{
+            return new JsonResponse(['error' => 'Token Invalide'], 400);
+        }
     }
 }
