@@ -33,33 +33,27 @@
                     </div>
                     <div class="card-body">
                         <h2 class="blog-title">{{ figure.name }}</h2>
-                        <p class="blog-description">{{ figure.description }}</p>
-                        <a href="{{ path('figure_show', {'id': figure.id}) }}">Voir plus</a>
-                        <a class="nav-link" href="{{ path('edit_figure',{'id': figure.id}) }}">Modifier</a>
+                        <p class="blog-description">{{ figure.description|raw }}</p>
+                        <div class="btn-more-update">
+                            <a class="btn btn-primary" href="{{ path('figure_show', {'id': figure.id}) }}">Voir plus</a>
+                            <a class="btn btn-success" href="{{ path('edit_figure',{'id': figure.id}) }}">Modifier</a>
+                        </div>
                         {# <div class="card-profile">
                         <img class="profile-img" src='https://images.unsplash.com/photo-1554780336-390462301acf?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ' alt=''>
                          #}
                         {# <div class="card-profile-info">
-                            <h3 class="profile-name">Maya Eleanor Peña</h3>
-                            <p class="profile-followers">1.2k followers</p>
+                            <h3 class="profile-name">Ervin</h3>
                         </div> #}
                         {# </div> #}
                     </div>
-                    </div>
+                </div>
+                    
             {% endfor %}
+            <a href="#" id="loadMore">Voir plus</a>
         </div>
-        {# {% for figure in figures %} #}
-            {# <div class="figure">
-                {{ figure.name }}
-                {% if figure.images | length > 0 %}
-                    <div>
-                        <img src="{{ asset('/images/figures/uploads/'~figure.images[0].name) }}" alt="figure" width="150">
-                    </div>
-                {% endif %}
-                </br>
-                <a href="{{ path('figure_show', {'id': figure.id}) }}">Voir plus</a>
-                <a class="nav-link" href="{{ path('edit_figure',{'id': figure.id}) }}">Modifier</a>
-            </div> #}
         
+{% endblock %}
 
+{% block javascripts %}
+    <script type="text/javascript" src="../assets/js/loadmore.js"></script>
 {% endblock %}

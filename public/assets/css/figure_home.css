@@ -1,11 +1,9 @@
+/*Design card figure*/
 :root {
     --clr-gray-light: #d7dfe2;
     --clr-gray-med: #616b74;
-    --clr-gray-dark: #414b56;
+    --clr-dark: #000000;
     --clr-link: #4d97b2;
-    --clr-popular: #ef257a;
-    --clr-technology: #651fff;
-    --clr-psychology: #e85808;
   }
   
   * {
@@ -14,10 +12,6 @@
     margin: 0;
     padding: 0;
   }
-  
-  /* body {
-    color: var(--clr-gray-dark);
-  } */
   
   .wrapper {
     display: flex;
@@ -35,6 +29,7 @@
     margin: 1rem;
     transition: 250ms all ease-in-out;
     cursor: pointer;
+    display: none;
   }
   
   .card:hover {
@@ -53,7 +48,7 @@
     font-size: 0.8rem;
     font-weight: bold;
     color: white;
-    background: red;
+    background: rgb(0, 0, 0);
     padding: 0.5rem 1.3rem 0.5rem 1rem;
     text-transform: uppercase;
     position: absolute;
@@ -63,15 +58,7 @@
   }
   
   .popular {
-    background: var(--clr-popular);
-  }
-  
-  .technology {
-    background: var(--clr-technology);
-  }
-  
-  .psychology {
-    background: var(--clr-psychology);
+    background: var(--clr-dark);
   }
   
   .card-body {
@@ -120,3 +107,33 @@
     font-size: 0.9rem;
   }
   
+  /*Btn voir plus et update*/
+  .btn-more-update {
+    display: flex;
+  }
+
+  /* Load more figure  */
+
+  #loadMore {
+    width: 200px;
+    color: #fff;
+    display: block;
+    text-align: center;
+    margin: 20px auto;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid transparent;
+    background-color: rgb(0, 0, 0);
+    transition: .3s;
+  }
+  #loadMore:hover {
+    color: rgb(0, 0, 0);
+    background-color: #fff;
+    border: 1px solid rgb(91, 91, 145);
+    text-decoration: none;
+  }
+  .noContent {
+    color: #000 !important;
+    background-color: transparent !important;
+    pointer-events: none;
+  }

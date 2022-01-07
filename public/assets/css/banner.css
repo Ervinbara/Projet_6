@@ -52,7 +52,7 @@ header{
     border: 2px solid black;
     border-radius: 0;
     outline: none;
-    background: cadetblue;
+    background: rgb(138, 138, 138);
     border-radius: 15%;
 }
 

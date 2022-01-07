@@ -7,6 +7,15 @@
 {% block body %}
 
 <div class="example-wrapper">
+
+    <div class="figure_status">
+        {% if figure.id is not none %}
+            <h1> Modification d'une figure </h1>
+        {% else %}
+            <h1> Ajout d'une figure </h1>
+        {% endif %}
+    </div>
+
     {{ form_start(form) }}
     {{ form_widget(form) }}
     {% for image in figure.images %}
