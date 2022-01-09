@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block stylesheets %}
-    <link rel="stylesheet" type="text/css" href="../../assets/css/navbar_other_page.css"/>
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/css/navbar_other_page.css')}}"/>
 {% endblock %}
 
 {% block body %}
@@ -31,5 +31,5 @@
 {% endblock %}
 
 {% block javascripts %}
-    <script type="text/javascript" src="../../assets/js/images.js"></script>
+    <script type="text/javascript" src="{{asset('assets/js/images.js')}}"/>
 {% endblock %}

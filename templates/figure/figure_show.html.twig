@@ -26,13 +26,20 @@
 <br>
 
 <section id="commentaires">
-        <h2>{{ figure.comments | length }}Commentaire </h2>
+        <h2>{{ figure.comments | length }} Commentaire </h2>
         {% for comment in figure.comments %} <!--Pour chaque commentaire dans les commentaire de l'article-->
             <div class="comment container">
                 <div class="info container">
-                    <div class="username">
-                        {{comment.author}} 
+                    <div class="author-info">
+                    
+                        <div class="picture">
+                            <img src="{{asset('images/pictures/' ~ comment.user.imageName)}}"></img>
+                        </div>
+                        <div class="username">
+                            {{comment.user.username}} 
+                        </div>
                     </div>
+                    
                     <div class="post_date">
                         {{comment.createdAt | date('d/m/Y')}}
                     </div>
@@ -41,6 +48,8 @@
                     </p>
                 </div>
             </div>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/VI57QHL6ge0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                                
         {% endfor %}
         
         <h2>Laisse un commentaire</h2>

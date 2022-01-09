@@ -39,9 +39,11 @@ class FigureController extends AbstractController
      */
     public function form(Figure $figure = null, Request $request, EntityManagerInterface $manager)
     {
-        if(!$figure) {
+        $newFigure = $figure === null;
+        if($newFigure) {
             $figure = new Figure();
         }
+        
         $form = $this->createForm(FigureType::class, $figure);
 
         $form->handleRequest($request);
@@ -74,8 +76,10 @@ class FigureController extends AbstractController
             //     $video->setName("gaga");
             //     $figure->addVideo($video);
             // // }
-        
-            $manager->persist($figure);
+            
+            if($newFigure) {
+                $manager->persist($figure);
+            }
             $manager->flush();
         
             return $this->redirectToRoute('figure_show', ['id' => $figure->getId()]);
@@ -104,7 +108,7 @@ class FigureController extends AbstractController
         if($form->isSubmitted() && $form->isValid()){
             $comment->setCreatedAt(new DateTimeImmutable())
                     ->setFigure($figure)
-                    ->setAuthor($this->getUser()->getUsername()); //Tu correspond à la figure que j'ai en variable
+                    ->setUser($this->getUser()); //Tu correspond à la figure que j'ai en variable
             $manager->persist($comment);
             $manager->flush();
             $this->addFlash('success', 'Message envoyé !');
@@ -115,6 +119,7 @@ class FigureController extends AbstractController
         } 
 
         $figure = $repo->find($figure);
+        // dd($figure->getComments());
         return $this->render('figure/figure_show.html.twig',[
             'figure' => $figure,
             'commentForm' => $form->createView(),

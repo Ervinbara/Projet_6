@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Serializable;
 use DateTimeImmutable;
 use DateTimeInterface;
@@ -86,6 +88,16 @@ class User implements UserInterface,PasswordAuthenticatedUserInterface, Serializ
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $token_expiration;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="user")
+     */
+    private $comments;
+
+    public function __construct()
+    {
+        $this->comments = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -249,6 +261,36 @@ class User implements UserInterface,PasswordAuthenticatedUserInterface, Serializ
      public function setTokenExpiration(?\DateTimeInterface $token_expiration): self
      {
          $this->token_expiration = $token_expiration;
+
+         return $this;
+     }
+
+     /**
+      * @return Collection|Comment[]
+      */
+     public function getComments(): Collection
+     {
+         return $this->comments;
+     }
+
+     public function addComment(Comment $comment): self
+     {
+         if (!$this->comments->contains($comment)) {
+             $this->comments[] = $comment;
+             $comment->setUser($this);
+         }
+
+         return $this;
+     }
+
+     public function removeComment(Comment $comment): self
+     {
+         if ($this->comments->removeElement($comment)) {
+             // set the owning side to null (unless already changed)
+             if ($comment->getUser() === $this) {
+                 $comment->setUser(null);
+             }
+         }
 
          return $this;
      }

@@ -4,22 +4,25 @@
     <link rel="stylesheet" type="text/css" href="../assets/css/figure_home.css"/>
 {% endblock %}
 
-{% block banner %}
-    <section class="banner">    
+{% block banner %} 
+    <section class="banner" id="banner-anchor">    
          <div class="container">
             <div class="col-sm-6">
                 <h2>Bienvenue</h2>
                 <p>Snowboard</p>
                 <br/>
-                <a href="#ancre" class="btn btn-primary">Voir plus</a>
+                <a href="#figures" class="btn btn-primary js-anchor-link">Voir plus</a>
                 <a class="btn btn-success" href="./images/cv.pdf">Lien vers mon cv</a>
             </div>
+        </div>
+        <div class="anchor-down">
+            <a class="js-anchor-link" href="#footer-anchor"><i class="fas fa-arrow-down fa-3x"></i></a>
         </div>
     </section>
 {% endblock %}
 
 {% block body %}
-    <h2> Figures </h2>
+    <h2 id="figures"> Figures </h2>
         <div class="wrapper">
             {% for figure in figures %}            
                 <div class="card">
@@ -51,9 +54,14 @@
             {% endfor %}
             <a href="#" id="loadMore">Voir plus</a>
         </div>
-        
+
+        <div class="anchor-up">
+            <a class="js-anchor-link" href="#banner-anchor"><i class="fas fa-arrow-up fa-3x"></i></a>
+        </div>
 {% endblock %}
+
 
 {% block javascripts %}
     <script type="text/javascript" src="../assets/js/loadmore.js"></script>
+    <script type="text/javascript" src="../assets/js/scroll.js"></script>
 {% endblock %}

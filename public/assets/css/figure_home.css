@@ -137,3 +137,22 @@
     background-color: transparent !important;
     pointer-events: none;
   }
+
+  /*Ancre up et down*/
+.anchor-up{
+  position: absolute;
+  right: 5%;
+}
+.anchor-down{
+  position: absolute;
+  right: 5%;
+  top: 90%;
+}
+
+.anchor-down i{
+  color: black;
+}
+
+.anchor-up i{
+  color: black;
+}
