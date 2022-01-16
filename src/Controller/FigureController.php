@@ -50,6 +50,16 @@ class FigureController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             // On récupère les images transmises
             $images = $form->get('images')->getData();
+
+            $videos = $form->get('videos')->getData();
+
+            // foreach($videos as $video){
+                $vdo = new Videos();
+                $vdo->setName($videos);
+                $figure->addVideo($vdo);
+
+            // }
+
             
             // On boucle sur les images
             foreach($images as $image){
@@ -67,21 +77,13 @@ class FigureController extends AbstractController
                 $img->setName($fichier);
                 $figure->addImage($img);
             }
-
-            // $video = $form->get('videos')->getData();
-            // // Insertion des vidéos
-            // // foreach($videos as $video){                
-            //     // On crée l'image dans la base de données
-            //     $video = new Videos();
-            //     $video->setName("gaga");
-            //     $figure->addVideo($video);
-            // // }
             
             if($newFigure) {
                 $manager->persist($figure);
             }
             $manager->flush();
-        
+            $this->addFlash('success', 'Figure ajouté !');
+
             return $this->redirectToRoute('figure_show', ['id' => $figure->getId()]);
         }
 
@@ -119,7 +121,7 @@ class FigureController extends AbstractController
         } 
 
         $figure = $repo->find($figure);
-        // dd($figure->getComments());
+        // dd($figure->getComments())
         return $this->render('figure/figure_show.html.twig',[
             'figure' => $figure,
             'commentForm' => $form->createView(),
@@ -143,6 +145,28 @@ class FigureController extends AbstractController
             // On supprime l'entrée de la base
             $em = $this->getDoctrine()->getManager();
             $em->remove($image);
+            $em->flush();
+
+            // On répond en json
+            return new JsonResponse(['success' => 1]);
+        }else{
+            return new JsonResponse(['error' => 'Token Invalide'], 400);
+        }
+    }
+
+    /**
+     * @Route("/supprime/video/{id}", name="figure_delete_video", methods={"DELETE"})
+     */
+    public function deleteVideo(Videos $video, Request $request){
+        $data = json_decode($request->getContent(), true);
+
+        // On vérifie si le token est valide
+        if($this->isCsrfTokenValid('delete'.$video->getId(), $data['_token'])){
+            // On récupère le nom de l'image
+            $nom = $video->getName();
+            // On supprime l'entrée de la base
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($video);
             $em->flush();
 
             // On répond en json

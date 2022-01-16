@@ -9,9 +9,8 @@ use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class FigureType extends AbstractType
 {
@@ -30,14 +29,14 @@ class FigureType extends AbstractType
                 'mapped' => false,
                 'required' => false
             ])
-            // ->add('videos', UrlType::class, [
-            //     'attr' => [
-            //         'placeholder' => 'lien vidéo à ajouter...'
-            //     ],
-            //     'allow_extra_fields' => true,
-            //     'required' => false,
-            //     'mapped' => false,
-            // ])
+            ->add('videos', CollectionType::class, [
+                'attr' => [
+                    'placeholder' => 'lien vidéo à ajouter...'
+                ],
+                'entry_type' => VideosType::class,
+                'required' => false,
+                'mapped' => false,
+            ])
         ;
     }
 

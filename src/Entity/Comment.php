@@ -29,7 +29,7 @@ class Comment
 
     /**
      * @ORM\ManyToOne(targetEntity=Figure::class, inversedBy="comments")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $figure;
 

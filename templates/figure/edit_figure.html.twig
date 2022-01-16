@@ -6,28 +6,38 @@
 
 {% block body %}
 
-<div class="example-wrapper">
+    <div class="example-wrapper">
 
-    <div class="figure_status">
-        {% if figure.id is not none %}
-            <h1> Modification d'une figure </h1>
-        {% else %}
-            <h1> Ajout d'une figure </h1>
-        {% endif %}
-    </div>
-
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
-    {% for image in figure.images %}
-        <div>
-            <img src="{{ asset('/images/figures/uploads/'~image.name) }}" alt="figure" width="150">
-
-            <a href="{{ path('figure_delete_image', {id: image.id})}}" data-delete data-token="{{ csrf_token('delete' ~ image.id )}}">Supprimer</a>
+        <div class="figure_status">
+            {% if figure.id is not none %}
+                <h1> Modification d'une figure </h1>
+            {% else %}
+                <h1> Ajout d'une figure </h1>
+            {% endif %}
         </div>
-    {% endfor %}
-    <button type="submit" class="btn btn-primary">Ajouter</button>
-    {{ form_end(form) }}
-</div> 
+
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        {% for image in figure.images %}
+            <div>
+                <img src="{{ asset('/images/figures/uploads/'~image.name) }}" alt="figure" width="150">
+
+                <a href="{{ path('figure_delete_image', {id: image.id})}}" data-delete data-token="{{ csrf_token('delete' ~ image.id )}}">Supprimer</a>
+            </div>
+        {% endfor %}
+
+        {% for video in figure.videos %}
+            <div>
+                <iframe width="150" height="120" src="https://www.youtube.com/embed/{{video.name}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>                                   
+                <a href="{{ path('figure_delete_video', {id: video.id})}}" data-delete data-token="{{ csrf_token('delete' ~ video.id )}}">Supprimer</a>
+            </div>
+        {% endfor %} 
+
+        <button type="submit" class="btn btn-primary">Ajouter</button>
+        {{ form_end(form) }}
+
+    </div> 
+
 {% endblock %}
 
 {% block javascripts %}

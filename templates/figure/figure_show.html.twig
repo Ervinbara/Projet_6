@@ -9,66 +9,79 @@
 
 <div class="example-wrapper">
     <h2>Trick : {{ figure.name }}</h2>
+        Mettre la première image du trick en grand
+        {% if figure.images | length > 0 %}
+                <img class="banner-img" src="{{ asset('/images/figures/uploads/'~figure.images[0].name) }}" alt="figure" width="200">
+        {% endif %}
     <h3>Catégorie : {{ figure.category.title }}</h3>
     <h3>Description : {{ figure.description|raw }}</h3>
     <a class="nav-link" href="{{ path('edit_figure',{'id': figure.id}) }}">Modifier</a>
-    <div class="slideshow-container">
-        {% for image in figure.images %}
-            <div class="mySlides">
-                <img src="{{ asset('/images/figures/uploads/'~image.name) }}" alt="figure">
-                <div class="text">Caption Text</div>
-            </div>
-        {% endfor %} 
-        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-        <a class="next" onclick="plusSlides(1)">&#10095;</a>
+    <div class="visual-content">
+        <div>
+            {% for image in figure.images %}
+                <div>
+                    <img src="{{ asset('/images/figures/uploads/'~image.name) }}" width="560" height="315" alt="figure">
+                    {# <div class="text">Caption Text</div> #}
+                </div>
+            {% endfor %}
+        </div>
+
+        <div>
+            {% for video in figure.videos %}
+                <div>
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/{{video.name}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>                                   
+                </div>
+            {% endfor %} 
+        </div>
     </div>
 </div>
 <br>
 
 <section id="commentaires">
-        <h2>{{ figure.comments | length }} Commentaire </h2>
-        {% for comment in figure.comments %} <!--Pour chaque commentaire dans les commentaire de l'article-->
-            <div class="comment container">
-                <div class="info container">
-                    <div class="author-info">
-                    
-                        <div class="picture">
-                            <img src="{{asset('images/pictures/' ~ comment.user.imageName)}}"></img>
-                        </div>
-                        <div class="username">
-                            {{comment.user.username}} 
-                        </div>
-                    </div>
-                    
-                    <div class="post_date">
-                        {{comment.createdAt | date('d/m/Y')}}
-                    </div>
-                    <p>
-                        {{comment.content | raw}}
-                    </p>
+    <div class="mt-5">
+        <div class="justify-content-center">
+            <div>
+                <div class="headings d-flex justify-content-between align-items-center mb-3">
+                    <h3>Commentaires : {{ figure.comments | length }}</h3>
                 </div>
+                    {% for comment in figure.comments %}
+                        <div class="card p-3 mt-2">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="user d-flex flex-row align-items-center"> <img src="{{asset('images/pictures/' ~ comment.user.imageName)}}" width="55" height="55" class="user-img rounded-circle mr-2"> <span><small class="font-weight-bold">{{comment.user.username}} : </small>
+                                <small class="font-weight">{{comment.content | raw}}</small>
+                                </span> 
+                            </div> 
+                                <small> {{comment.createdAt | date('d/m/Y')}}</small>
+                            </div>
+                            <div class="action d-flex justify-content-between mt-2 align-items-center">
+                                <div class="icons align-items-center"> <i class="fa fa-check-circle-o check-icon text-primary"></i></div>
+                            </div>
+                        </div>
+                    {% endfor %}
             </div>
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/VI57QHL6ge0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                                                
-        {% endfor %}
+        </div>
+    </div>
         
-        <h2>Laisse un commentaire</h2>
-        {% if app.user %}
-        
-        {{form_start(commentForm)}}
+    <br/>
+    <h3>Laisse un commentaire</h3>
+    {% if app.user %}
+    
+    {{form_start(commentForm)}}
 
-        {{form_row(commentForm.content,{'attr': {'placeholder':"Contenu"} }) }}
+    {{form_row(commentForm.content,{'attr': {'placeholder':"Contenu"} }) }}
 
-        <button type="submit" class="btn send">Envoyer</button>
-        {{form_end(commentForm)}}
-        {% else %}
-            <h3>Connexion requise</h3>
-            <p><a href="{{path('security_login')}}" class="btn btn-primary">Connexion</a>
-            ou <a href="{{path('security_registration')}}" class="btn btn-primary">Pas de compte ?</a>
-            </p>
-            
-        {% endif %}
-    </section>
+    <button type="submit" class="btn btn-primary send">Envoyer</button>
+
+    {{form_end(commentForm)}}
+    
+    {% else %}
+        <h3>Connexion requise</h3>
+        <p><a href="{{path('security_login')}}" class="btn btn-primary">Connexion</a>
+        ou <a href="{{path('security_registration')}}" class="btn btn-primary">Pas de compte ?</a>
+        </p>
+    {% endif %}
+
+</section>
 {% endblock %}
 
 {% block javascripts %}

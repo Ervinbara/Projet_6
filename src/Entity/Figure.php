@@ -6,9 +6,11 @@ use App\Repository\FigureRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=FigureRepository::class)
+ * @UniqueEntity(fields={"name"}, message="Ce trick existe déjà")
  */
 class Figure
 {
@@ -35,7 +37,7 @@ class Figure
     private $images;
 
     /**
-     * @ORM\OneToMany(targetEntity=Videos::class, mappedBy="figure")
+     * @ORM\OneToMany(targetEntity=Videos::class, mappedBy="figure", cascade={"persist"})
      */
     private $videos;
 
