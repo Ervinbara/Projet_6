@@ -51,14 +51,14 @@ class FigureController extends AbstractController
             // On récupère les images transmises
             $images = $form->get('images')->getData();
 
-            $videos = $form->get('videos')->getData();
-
-            // foreach($videos as $video){
-                $vdo = new Videos();
-                $vdo->setName($videos);
-                $figure->addVideo($vdo);
-
-            // }
+//            $videos = $form->get('videos')->getData();
+//
+//             foreach($videos as $video){
+//                $vdo = new Videos();
+//                $vdo->setName($videos);
+//                $figure->addVideo($vdo);
+//
+//             }
 
             
             // On boucle sur les images
@@ -86,6 +86,7 @@ class FigureController extends AbstractController
 
             return $this->redirectToRoute('figure_show', ['id' => $figure->getId()]);
         }
+//        dd($form->createView());
 
         return $this->render('figure/edit_figure.html.twig', [
             'controller_name' => 'FigureController',

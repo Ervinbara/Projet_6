@@ -16,30 +16,55 @@
             {% endif %}
         </div>
 
+        {# ---- Formulaire ----- #}
+
         {{ form_start(form) }}
-        {{ form_widget(form) }}
+        {{ form_widget(form._token) }}
+        {{ form_widget(form.name) }}
+        {{ form_widget(form.category) }}
+        {{ form_widget(form.description) }}
+
+        {# Ajout de d'images #}
         {% for image in figure.images %}
             <div>
                 <img src="{{ asset('/images/figures/uploads/'~image.name) }}" alt="figure" width="150">
-
                 <a href="{{ path('figure_delete_image', {id: image.id})}}" data-delete data-token="{{ csrf_token('delete' ~ image.id )}}">Supprimer</a>
             </div>
         {% endfor %}
 
-        {% for video in figure.videos %}
-            <div>
-                <iframe width="150" height="120" src="https://www.youtube.com/embed/{{video.name}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>                                   
-                <a href="{{ path('figure_delete_video', {id: video.id})}}" data-delete data-token="{{ csrf_token('delete' ~ video.id )}}">Supprimer</a>
-            </div>
-        {% endfor %} 
+        {# Ajout de video #}
 
+        <button type="button" class="btn btn-primary btn-new" data-collection="#videos">Ajout de video</button>
+        <div class="row" id="videos"
+             data-prototype="{{ include("figure/_video.html.twig", {form: form.videos.vars.prototype })|e("html_attr") }}"
+             data-index="{{ form.videos|length > 0 ? form.videos|last.vars.name + 1 : 0}}">
+            {% for video in form.videos %}
+                <div class="col-4">
+                    {{ include("figure/_video.html.twig", {form: video }) }}
+                </div>
+            {% endfor %}
+        </div>
+
+    {# Afficher les vidéo dans la partie lors d'une mofication #}
+{#        {% if figure.id is not none %}#}
+{#            {% for video in figure.videos %}#}
+{#                <div>#}
+{#                    <iframe width="150" height="120" src="https://www.youtube.com/embed/{{video.name}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>#}
+{#                    <a href="{{ path('figure_delete_video', {id: video.id})}}" data-delete data-token="{{ csrf_token('delete' ~ video.id )}}">Supprimer</a>#}
+{#                </div>#}
+{#            {% endfor %}#}
+{#        {% endif %}#}
+
+        <br/>
         <button type="submit" class="btn btn-primary">Ajouter</button>
-        {{ form_end(form) }}
+        {{ form_end(form, {render_rest: false}) }}
+{#        {{ form_end(form) }}#}
 
-    </div> 
+    </div>
 
 {% endblock %}
 
 {% block javascripts %}
-    <script type="text/javascript" src="{{asset('assets/js/images.js')}}"/>
+    <script type="text/javascript" src="{{asset('assets/js/images.js')}}"></script>
+    <script type="text/javascript" src="{{asset('assets/js/add_video.js')}}"></script>
 {% endblock %}

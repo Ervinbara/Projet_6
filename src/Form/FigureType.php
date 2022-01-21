@@ -30,14 +30,15 @@ class FigureType extends AbstractType
                 'required' => false
             ])
             ->add('videos', CollectionType::class, [
-                'attr' => [
-                    'placeholder' => 'lien vidéo à ajouter...'
-                ],
                 'entry_type' => VideosType::class,
-                'required' => false,
-                'mapped' => false,
-            ])
-        ;
+                'entry_options' => [
+                    'attr' => ['placeholder' => 'Ajouter un lien'],
+                ],
+                "by_reference" => false,
+                "allow_add" => true,
+                "allow_delete" => true,
+                "prototype" => true,
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
