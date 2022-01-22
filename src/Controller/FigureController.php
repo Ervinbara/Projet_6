@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\CommentRepository;
 use DateTime;
 use App\Entity\Figure;
 use App\Entity\Images;
@@ -23,10 +24,15 @@ class FigureController extends AbstractController
      /**
      * @Route("/", name="home")
      */
-    public function index(FigureRepository $repo)
+    public function index(FigureRepository $repo, Request $request)
     {
-        $figures = $repo->findAll();       
-        // dd($figures);
+        $page = (int)$request->query->get('page',1);
+//        dd($page);
+        // Par défaut afficher les 8 figures les plus récentes
+        $figures = $repo->findBy([],['id'=> 'ASC'],10);
+        // if on appui sur load more
+            // On va récupérer 4 figuree de plus
+                // Afficher le tout en temps réel sans rechargement de la page (AJAX needed)
         return $this->render('figure/index.html.twig', [
             'controller_name' => 'FigureController',
             'figures' => $figures
@@ -34,6 +40,38 @@ class FigureController extends AbstractController
     }
 
     /**
+     * @Route("/forum", name="forum")
+     */
+    public function forum(Request $request, EntityManagerInterface $manager, CommentRepository $repo)
+    {
+        $comment = new Comment();
+
+        // On récupère tout les commentaire qui ne sont pas attribué à une figure càd ou figure_id == NULL
+        $commentForum = $repo->findby(['figure'=> NULL],['id' =>'DESC']);
+
+        $form = $this->createForm(CommentType::class, $comment);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $comment->setCreatedAt(new DateTimeImmutable())
+                ->setUser($this->getUser()); //Tu correspond à la figure que j'ai en variable
+            $manager->persist($comment);
+            $manager->flush();
+            $this->addFlash('success', 'Message envoyé !');
+
+            return $this->redirectToRoute('forum',[
+            ]);
+        }
+
+        return $this->render('figure/forum.html.twig', [
+            'commentForm' => $form->createView(),
+            'comments' => $commentForum
+        ]);
+    }
+
+    /**
+     * Ajout et modification de tricks
      * @Route("/figure/new", name="add_figure")
      * @Route("/figure/{id}/edit", name="edit_figure")
      */
@@ -50,17 +88,6 @@ class FigureController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             // On récupère les images transmises
             $images = $form->get('images')->getData();
-
-//            $videos = $form->get('videos')->getData();
-//
-//             foreach($videos as $video){
-//                $vdo = new Videos();
-//                $vdo->setName($videos);
-//                $figure->addVideo($vdo);
-//
-//             }
-
-            
             // On boucle sur les images
             foreach($images as $image){
                 // On génère un nouveau nom de fichier
@@ -97,7 +124,7 @@ class FigureController extends AbstractController
 
 
     /**
-     * TODO : Voir pourquoi après le clique sur le lien "Voir plus", il y a une erreur d'affichage
+     * Affichage d'un trick en particulier
      * @Route("/show_figure/{id}", name="figure_show")
      */
     public function figure_show(Figure $figure, Request $request, EntityManagerInterface $manager,FigureRepository $repo)
@@ -122,7 +149,6 @@ class FigureController extends AbstractController
         } 
 
         $figure = $repo->find($figure);
-        // dd($figure->getComments())
         return $this->render('figure/figure_show.html.twig',[
             'figure' => $figure,
             'commentForm' => $form->createView(),
@@ -131,6 +157,7 @@ class FigureController extends AbstractController
 
 
     /**
+     * Suppression d'une image liée à un trick
      * @Route("/supprime/image/{id}", name="figure_delete_image", methods={"DELETE"})
      */
     public function deleteImage(Images $image, Request $request){
@@ -156,6 +183,7 @@ class FigureController extends AbstractController
     }
 
     /**
+     * Suppression d'une vidéo liée à un trick
      * @Route("/supprime/video/{id}", name="figure_delete_video", methods={"DELETE"})
      */
     public function deleteVideo(Videos $video, Request $request){
