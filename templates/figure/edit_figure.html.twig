@@ -20,11 +20,15 @@
 
         {{ form_start(form) }}
         {{ form_widget(form._token) }}
-        {{ form_widget(form.name) }}
-        {{ form_widget(form.category) }}
-        {{ form_widget(form.description) }}
+        {{ form_widget(form.name, {'attr': {'placeholder': 'Nom de la figure'}}) }}
+
+        <h6>Catégorie de la figure : {{ form_widget(form.category) }}</h6>
+        <h6>Description de la figure</h6>
+        {{ form_widget(form.description, {'attr': {'placeholder': 'Description de la figure'}}) }}
+        <br />
 
         {# Ajout de d'images #}
+
         {% for image in figure.images %}
             <div>
                 <img src="{{ asset('/images/figures/uploads/'~image.name) }}" alt="figure" width="150">
@@ -41,6 +45,7 @@
             {% for video in form.videos %}
                 <div class="col-4">
                     {{ include("figure/_video.html.twig", {form: video }) }}
+{#                    {{ form_row(form.name, {'attr': {'placeholder': 'Lien'}}) }}#}
                 </div>
             {% endfor %}
         </div>
@@ -56,10 +61,8 @@
 {#        {% endif %}#}
 
         <br/>
-        <button type="submit" class="btn btn-primary">Ajouter</button>
+        <button type="submit" class="btn btn-success">Ajouter ce trick</button>
         {{ form_end(form, {render_rest: false}) }}
-{#        {{ form_end(form) }}#}
-
     </div>
 
 {% endblock %}

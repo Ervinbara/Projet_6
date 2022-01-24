@@ -4,9 +4,9 @@
     <link rel="stylesheet" type="text/css" href="../assets/css/figure_home.css"/>
 {% endblock %}
 
-{% block banner %} 
-    <section class="banner" id="banner-anchor">    
-         <div class="container">
+{% block banner %}
+    <section class="banner" id="banner-anchor">
+        <div class="container">
             <div class="col-sm-6">
                 <h2>Bienvenue</h2>
                 <p>Snowboard</p>
@@ -23,42 +23,18 @@
 
 {% block body %}
     <h2 id="figures"> Figures </h2>
-        <div class="wrapper">
-            {% for figure in figures %}            
-                <div class="card">
-                    <div class="card-banner">
-                        <p class="category-tag popular">{{ figure.category.title }}</p>
-                        {% if figure.images | length > 0 %}
-                            <a href="{{ path('figure_show', {'id': figure.id}) }}">
-                                <img class="banner-img" src="{{ asset('/images/figures/uploads/'~figure.images[0].name) }}" alt="figure" width="150">
-                            </a>
-                        {% endif %}
-                    </div>
-                    <div class="card-body">
-                        <h2 class="blog-title">{{ figure.name }}</h2>
-                        <p class="blog-description">{{ figure.description|raw }}</p>
-                        <div class="btn-more-update">
-                            <a class="btn btn-primary" href="{{ path('figure_show', {'id': figure.id}) }}">Voir plus</a>
-                            <a class="btn btn-success" href="{{ path('edit_figure',{'id': figure.id}) }}">Modifier</a>
-                        </div>
-                        {# <div class="card-profile">
-                        <img class="profile-img" src='https://images.unsplash.com/photo-1554780336-390462301acf?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ' alt=''>
-                         #}
-                        {# <div class="card-profile-info">
-                            <h3 class="profile-name">Ervin</h3>
-                        </div> #}
-                        {# </div> #}
-                    </div>
-                </div>
+    <div class="wrapper" id="tricks">
+        {{ include("figure/tricks.html.twig") }}
 
-            {% endfor %}
-            {# Bouton load more qui vise un path #}
-            <a href="#" id="loadMore">Voir plus</a>
-        </div>
+        {# Bouton load more qui vise un path #}
+    </div>
+    <a data-offset="{{ page }}" href="#" id="loadMore">Voir plus</a>
 
-        <div class="anchor-up">
-            <a class="js-anchor-link" href="#banner-anchor"><i class="fas fa-arrow-up fa-3x"></i></a>
-        </div>
+    <div class="anchor-up">
+        <a class="js-anchor-link" href="#banner-anchor"><i class="fas fa-arrow-up fa-3x"></i></a>
+    </div>
+
+
 {% endblock %}
 
 

@@ -29,7 +29,7 @@
     margin: 1rem;
     transition: 250ms all ease-in-out;
     cursor: pointer;
-    display: none;
+    /*display: none;*/
   }
   
   .card:hover {
