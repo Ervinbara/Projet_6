@@ -31,6 +31,11 @@ class FigureController extends AbstractController
         $figures = $repo->findBy([], ['id' => 'ASC'], 8, $page);
         $page = $page + 8;
 
+        // Faire un compte du nbr de tricks, je l'envoi dans le twig puis dans le js et ce sera l'element de comparaison pour savoir si il me reste des elèments à afficher
+
+        // Récupération du nombre total de tricks pour établir une limite lors du clique sur le bouton voir plus
+        $total_tricks = count($repo->findAll());
+
         if ($request->isXmlHttpRequest()) {
 
             return $this->render('figure/tricks.html.twig', [
@@ -40,7 +45,8 @@ class FigureController extends AbstractController
         } else {
             return $this->render('figure/index.html.twig', [
                 'figures' => $figures,
-                'page' => $page
+                'page' => $page,
+                'total_tricks' => $total_tricks
             ]);
         }
     }

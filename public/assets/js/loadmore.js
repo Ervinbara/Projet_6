@@ -1,40 +1,30 @@
-// $(document).ready(function(){
-//     $(".card").slice(0, 8).show();
-//     $("#loadMore").on("click", function(e){
-//       e.preventDefault();
-//       $(".card:hidden").slice(0, 5).slideDown();
-//       if($(".card:hidden").length == 0) {
-//         $("#loadMore").text("No content").addClass("noContent");
-//       }
-//     });
-//
-//   })
-
-
 $(document).ready(function(){
     self = $('#tricks');
-    btn = $('#loadMore')
+    btn = $('#loadMore');
+
     $("#loadMore").on("click", function(e) {
         e.preventDefault();
+        // Si il n'y a plus de contenu à charger, on change le texte du bouton "Voir plus" en "No content"
+        if (parseInt(document.getElementById("loadMore").dataset.offset) >= parseInt(document.getElementById("loadMore").dataset.limit)){
+            console.log("arrertttetee");
+            document.getElementById("loadMore").text = "No content";
+            return 0;
+        }
         $.ajax({
             type:"GET",
-            url:"http://localhost:8000/20",
-            // Ici dire si y'a R à charger, modifier le load more "no content" ou "pas de contenu disponible"
-            // error: function(btn){
-            //     console.log("pas de content poto")
-            // },
+            url:`http://localhost:8000/${parseInt(this.dataset.offset)}`,
 
             success: function(result){
+                let increment = parseInt(document.getElementById("loadMore").dataset.offset);
                 self.append(result);
+                // console.log("more ",increment);
                 setTimeout(function(){
                     self.find('.help-modal').addClass('animate');
-                    document.getElementById("result_no").value = Number(val)+2;
+                        // Incrémenter de 8 la veleur de data-offset
+                        this.id += 8;
+                        // console.log(this);
+                        document.getElementById("loadMore").dataset.offset = `${increment + 8}`;
                 }, 100);
             }});
     });
 })
-
-
-// function initLoad() {
-//     self = $('#content');
-//     $('#btn').click(function() {

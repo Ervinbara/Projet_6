@@ -28,8 +28,8 @@
 
         {# Bouton load more qui vise un path #}
     </div>
-    <a data-offset="{{ page }}" href="#" id="loadMore">Voir plus</a>
-
+{#    {{ dump({ page }) }}#}
+    <a id="loadMore" data-offset="{{ page }}" data-limit="{{ total_tricks }}" href="#" >Voir plus</a>
     <div class="anchor-up">
         <a class="js-anchor-link" href="#banner-anchor"><i class="fas fa-arrow-up fa-3x"></i></a>
     </div>
