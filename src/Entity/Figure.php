@@ -52,6 +52,17 @@ class Figure
      */
     private $comments;
 
+    /**
+     * @ORM\Column(type="datetime_immutable")
+     */
+    private $createdAt;
+
+    /**
+     * @ORM\Column(type="datetime_immutable")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $modifyAt;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
@@ -186,6 +197,30 @@ class Figure
                 $comment->setFigure(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getModifyAt(): ?\DateTimeImmutable
+    {
+        return $this->modifyAt;
+    }
+
+    public function setModifyAt(\DateTimeImmutable $modifyAt): self
+    {
+        $this->modifyAt = $modifyAt;
 
         return $this;
     }

@@ -132,11 +132,6 @@
     border: 1px solid rgb(91, 91, 145);
     text-decoration: none;
   }
-  .noContent {
-    color: #000 !important;
-    background-color: transparent !important;
-    pointer-events: none;
-  }
 
   /*Ancre up et down*/
 .anchor-up{

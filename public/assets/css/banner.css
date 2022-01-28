@@ -73,8 +73,18 @@ header{
     color: white;
 }
 
-@media (max-width: 970px){
-   #navbarSupportedContent{
-       background: rgb(0, 0, 0);
-   }
-  }
+
+/*Banniere figure*/
+.banner_figure{
+    position: relative;
+    min-height: 100vh;
+    background-size: cover;
+    /* background-position: center; */
+    /*padding: 250px 0 200px;*/
+
+}
+.banner_figure img{
+    width: 100%;
+    height: 85vh;
+    opacity: 0.7;
+}

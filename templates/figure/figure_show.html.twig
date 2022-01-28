@@ -1,19 +1,31 @@
 {% extends 'base.html.twig' %}
 
 {% block stylesheets %}
-<link rel="stylesheet" type="text/css" href="../assets/css/navbar_other_page.css"/>
-<link rel="stylesheet" type="text/css" href="../assets/css/slideshow.css"/>
+    <link rel="stylesheet" type="text/css" href="../assets/css/navbar_other_page.css"/>
+    <link rel="stylesheet" type="text/css" href="../assets/css/slideshow.css"/>
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/css/loadmore_figures_comments.css')}}"/>
 {% endblock %}
+
+    {% block banner %}
+        <section class="banner_figure" id="banner-anchor">
+            {% if figure.images | length > 0 %}
+                <img class="banner-img" src="{{ asset('/images/figures/uploads/'~figure.images[0].name) }}" alt="figure">
+                <span>Trick : {{ figure.name }}</span>
+            {% else %}
+                <img class="banner-img" src="{{ asset('/images/figures/uploads/default.jpg') }}" alt="figure">
+                <span>Trick : {{ figure.name }}</span>
+            {% endif %}
+        </section>
+    {% endblock %}
 
 {% block body %}
 
-<div class="example-wrapper">
-    <h2>Trick : {{ figure.name }}</h2>
-        Mettre la première image du trick en grand
         {% if figure.images | length > 0 %}
                 <img class="banner-img" src="{{ asset('/images/figures/uploads/'~figure.images[0].name) }}" alt="figure" width="200">
         {% endif %}
     <h3>Catégorie : {{ figure.category.title }}</h3>
+    <h3>Crée le : {{ figure.createdAt|date("m/d/Y") }}</h3>
+    <h3>Modifier le : {{ figure.modifyAt|date("m/d/Y") }}</h3>
     <h3>Description : {{ figure.description|raw }}</h3>
     <a class="nav-link" href="{{ path('edit_figure',{'id': figure.id}) }}">Modifier</a>
     <div class="visual-content">
@@ -34,7 +46,6 @@
             {% endfor %} 
         </div>
     </div>
-</div>
 <br>
 
 <section id="commentaires">
@@ -44,13 +55,17 @@
                 <div class="headings d-flex justify-content-between align-items-center mb-3">
                     <h3>Commentaires : {{ figure.comments | length }}</h3>
                 </div>
+
+                <div id="comments">
                     {% for comment in figure.comments %}
-                        <div class="card p-3 mt-2">
+                        <div class="card p-3 mt-2 content">
                             <div class="d-flex justify-content-between align-items-center">
-                                <div class="user d-flex flex-row align-items-center"> <img src="{{asset('images/pictures/' ~ comment.user.imageName)}}" width="55" height="55" class="user-img rounded-circle mr-2"> <span><small class="font-weight-bold">{{comment.user.username}} : </small>
-                                <small class="font-weight">{{comment.content | raw}}</small>
-                                </span> 
-                            </div> 
+                                <div class="user d-flex flex-row align-items-center"> <img src="{{asset('images/pictures/' ~ comment.user.imageName)}}" width="55" height="55" class="user-img rounded-circle mr-2">
+                                    <span>
+                                        <small class="font-weight-bold">{{comment.user.username}} : </small>
+                                        <small class="font-weight">{{comment.content | raw}}</small>
+                                    </span>
+                                </div>
                                 <small> {{comment.createdAt | date('d/m/Y')}}</small>
                             </div>
                             <div class="action d-flex justify-content-between mt-2 align-items-center">
@@ -58,6 +73,11 @@
                             </div>
                         </div>
                     {% endfor %}
+                </div>
+
+                {% if figure.comments | length > 5 %}
+                    <a id="loadMore" data-offset="" data-limit="" href="#" >Voir plus</a>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -86,4 +106,5 @@
 
 {% block javascripts %}
     <script type="text/javascript" src="../assets/js/slideshow.js"></script>
+    <script type="text/javascript" src="{{asset('assets/js/loadmore_figures_comments.js')}}"></script>
 {% endblock %}

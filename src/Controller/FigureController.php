@@ -52,14 +52,20 @@ class FigureController extends AbstractController
     }
 
     /**
-     * @Route("/forum", name="forum")
+     * @Route(path="/forum/{coms}", name="forum", requirements={"coms"="\d+"})
      */
-    public function forum(Request $request, EntityManagerInterface $manager, CommentRepository $repo)
+    public function forum(Request $request, EntityManagerInterface $manager, CommentRepository $repo,int $coms = 0)
     {
+
+
         $comment = new Comment();
 
         // On récupère tout les commentaire qui ne sont pas attribué à une figure càd ou figure_id == NULL
-        $commentForum = $repo->findby(['figure' => NULL], ['id' => 'DESC']);
+        $commentForum = $repo->findby(['figure' => NULL], ['id' => 'DESC'],4, $coms);
+        $coms = $coms + 4;
+
+        // Récupération du nombre total de tricks pour établir une limite lors du clique sur le bouton voir plus
+        $total_comments = count($repo->findAll());
 
         $form = $this->createForm(CommentType::class, $comment);
 
@@ -78,7 +84,9 @@ class FigureController extends AbstractController
 
         return $this->render('figure/forum.html.twig', [
             'commentForm' => $form->createView(),
-            'comments' => $commentForum
+            'comments' => $commentForum,
+            'coms' => $coms,
+            'total_comments' => $total_comments
         ]);
     }
 
@@ -118,8 +126,12 @@ class FigureController extends AbstractController
             }
 
             if ($newFigure) {
+                $figure->setCreatedAt(new \DateTimeImmutable);
                 $manager->persist($figure);
             }
+//            else{
+//                $figure->setModifyAt(new \DateTimeImmutable);
+//            }
             $manager->flush();
             $this->addFlash('success', 'Figure ajouté !');
 

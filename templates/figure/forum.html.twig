@@ -1,28 +1,22 @@
 {% extends 'base.html.twig' %}
 
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="../assets/css/navbar_other_page.css"/>
+{% endblock %}
+
 {% block body %}
-    <h1>Forum de discussions</h1>
+    <h2>Forum de discussions</h2>
     <section id="commentaires">
         <div class="mt-5">
             <div class="justify-content-center">
                 <div>
                     <div class="headings d-flex justify-content-between align-items-center mb-3">
-                        <h3>Commentaires : {{ comments | length }}</h3>
+                        <h3>Commentaires : {{ total_comments }}</h3>
                     </div>
-                    {% for comment in comments %}
-                        <div class="card p-3 mt-2">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="user d-flex flex-row align-items-center"> <img src="{{asset('images/pictures/' ~ comment.user.imageName)}}" width="55" height="55" class="user-img rounded-circle mr-2"> <span><small class="font-weight-bold">{{comment.user.username}} : </small>
-                                <small class="font-weight">{{comment.content | raw}}</small>
-                                </span>
-                                </div>
-                                <small> {{comment.createdAt | date('d/m/Y')}}</small>
-                            </div>
-                            <div class="action d-flex justify-content-between mt-2 align-items-center">
-                                <div class="icons align-items-center"> <i class="fa fa-check-circle-o check-icon text-primary"></i></div>
-                            </div>
-                        </div>
-                    {% endfor %}
+                    <div id="comments">
+                        {{ include("figure/comments_forum.html.twig") }}
+                    </div>
+                    <a id="loadMore" data-offset="{{ coms }}" data-limit="{{ total_comments }}" href="#" >Voir plus</a>
                 </div>
             </div>
         </div>
@@ -48,4 +42,9 @@
 
     </section>
 
+{% endblock %}
+
+
+{% block javascripts %}
+    <script type="text/javascript" src="../assets/js/loadmore_comments.js"></script>
 {% endblock %}
