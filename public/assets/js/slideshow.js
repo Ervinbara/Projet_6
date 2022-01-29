@@ -1,28 +1,14 @@
-/* Slideshow JavaScript */
-var slideIndex = 1;
-showSlides(slideIndex);
-
-function plusSlides(n) {
-  showSlides(slideIndex += n);
-}
-
-function currentSlide(n) {
-  showSlides(slideIndex = n);
-}
-
-function showSlides(n) {
-  var i;
-  var slides = document.getElementsByClassName("mySlides");
-  var dots = document.getElementsByClassName("dot");
-  if (n > slides.length) {slideIndex = 1}
-  if (n < 1) {slideIndex = slides.length};
-  for (i = 0; i < slides.length; i++) {
-    slides[i].style.display = "none";
-  }
-  for (i = 0; i < dots.length; i++) {
-    dots[i].classList.remove("active");
-  }
-  slides[slideIndex-1].style.display = "block";
-  dots[slideIndex-1].classList.add("active");
-}
-/* Slideshow JavaScript */
+$('.multi-item-carousel').on('slide.bs.carousel', function (e) {
+    let $e = $(e.relatedTarget),
+        itemsPerSlide = 3,
+        totalItems = $('.carousel-item', this).length,
+        $itemsContainer = $('.carousel-inner', this),
+        it = itemsPerSlide - (totalItems - $e.index());
+    if (it > 0) {
+        for (var i = 0; i < it; i++) {
+            $('.carousel-item', this).eq(e.direction == "left" ? i : 0).
+                // append slides to the end/beginning
+                appendTo($itemsContainer);
+        }
+    }
+});

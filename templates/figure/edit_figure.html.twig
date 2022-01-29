@@ -28,7 +28,7 @@
         <br />
 
         {# Ajout de d'images #}
-
+        {{ form_widget(form.images) }}
         {% for image in figure.images %}
             <div>
                 <img src="{{ asset('/images/figures/uploads/'~image.name) }}" alt="figure" width="150">

@@ -85,23 +85,3 @@ header{
     border: 1px solid rgb(91, 91, 145);
     text-decoration: none;
 }
-
-
-/*Banniere sur la page des figure*/
-.ks-page-header {
-    background: #000000;  /* fallback for old browsers */
-    background: radial-gradient(circle at center, rgba(0,0,0, 0.8), rgba(0,0,0, 0.8), rgba(0,0,0, 0.7), rgba(0,0,0, 0.5), rgba(0,0,0, 0.2), rgba(0,0,0, 0)), url('https://picsum.photos/id/0/1280/720');
-    background-attachment: scroll;
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: cover;
-
-    display: flex;
-    height: 500px; // for browsers that do not support flexbox -- CSS override
-    height: 100vh;
-}
-
-.ks-page-title {
-    padding: 2em 0; // added for browsers that do not support flexbox but do support height 100vh  -- CSS override
-    margin: auto;
-}

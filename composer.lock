@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f4f9eb100738c37dd141902f07ca7f81",
+    "content-hash": "84be0ebdb48fc41d69f9ce20d434fa8c",
     "packages": [
         {
             "name": "composer/package-versions-deprecated",
@@ -1438,6 +1438,47 @@
                 "source": "https://github.com/doctrine/sql-formatter/tree/1.1.2"
             },
             "time": "2021-11-05T11:11:14+00:00"
+        },
+        {
+            "name": "draggable/formeo",
+            "version": "v1.6.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Draggable/formeo.git",
+                "reference": "831f7dd82d60e93787100cb9dbebf65fff05bcbe"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Draggable/formeo/zipball/831f7dd82d60e93787100cb9dbebf65fff05bcbe",
+                "reference": "831f7dd82d60e93787100cb9dbebf65fff05bcbe",
+                "shasum": ""
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kevin Chappell",
+                    "email": "kevin.b.chappell@gmail.com",
+                    "homepage": "https://kevin-chappell.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Drag and Drop Javascript form builder",
+            "homepage": "http://draggable.github.io/formeo/",
+            "keywords": [
+                "builder",
+                "form",
+                "form builder",
+                "formbuilder"
+            ],
+            "support": {
+                "issues": "https://github.com/Draggable/formeo/issues",
+                "source": "https://github.com/Draggable/formeo/tree/v1.6.2"
+            },
+            "time": "2020-12-30T03:28:14+00:00"
         },
         {
             "name": "egulias/email-validator",
@@ -10306,7 +10347,7 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=7.2.5",
+        "php": ">=7.3",
         "ext-ctype": "*",
         "ext-iconv": "*"
     },

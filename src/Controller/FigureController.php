@@ -65,7 +65,7 @@ class FigureController extends AbstractController
         $coms = $coms + 4;
 
         // Récupération du nombre total de tricks pour établir une limite lors du clique sur le bouton voir plus
-        $total_comments = count($repo->findAll());
+        $total_comments = count($repo->findby(['figure' => NULL]));
 
         $form = $this->createForm(CommentType::class, $comment);
 
@@ -82,12 +82,23 @@ class FigureController extends AbstractController
             ]);
         }
 
-        return $this->render('figure/forum.html.twig', [
-            'commentForm' => $form->createView(),
-            'comments' => $commentForum,
-            'coms' => $coms,
-            'total_comments' => $total_comments
-        ]);
+        if ($request->isXmlHttpRequest()) {
+
+            return $this->render('figure/comments_forum.html.twig', [
+                'commentForm' => $form->createView(),
+                'comments' => $commentForum,
+                'coms' => $coms,
+                'total_comments' => $total_comments
+            ]);
+        } else {
+            return $this->render('figure/forum.html.twig', [
+                'commentForm' => $form->createView(),
+                'comments' => $commentForum,
+                'coms' => $coms,
+                'total_comments' => $total_comments
+            ]);
+        }
+
     }
 
     /**

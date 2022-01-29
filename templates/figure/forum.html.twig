@@ -16,7 +16,9 @@
                     <div id="comments">
                         {{ include("figure/comments_forum.html.twig") }}
                     </div>
-                    <a id="loadMore" data-offset="{{ coms }}" data-limit="{{ total_comments }}" href="#" >Voir plus</a>
+                    {% if total_comments > 5 %}
+                        <a id="loadMore" data-offset="{{ coms }}" data-limit="{{ total_comments }}" href="#" >Voir plus</a>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -46,5 +48,6 @@
 
 
 {% block javascripts %}
-    <script type="text/javascript" src="../assets/js/loadmore_comments.js"></script>
+    <script type="text/javascript" src="../assets/js/loadmore_forum_comments.js"></script>
+{#    <script type="text/javascript" src="{{asset('assets/js/loadmore_forum_comments.js"')}}"></script>#}
 {% endblock %}

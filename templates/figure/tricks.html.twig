@@ -11,8 +11,6 @@
         </div>
         <div class="card-body">
             <h2 class="blog-title">{{ figure.name }}</h2>
-            <p>{{ figure.id }}</p>
-            <p class="blog-description">{{ figure.description|raw }}</p>
             <div class="btn-more-update">
                 <a class="btn btn-primary" href="{{ path('figure_show', {'id': figure.id}) }}">Voir plus</a>
                 <a class="btn btn-success" href="{{ path('edit_figure',{'id': figure.id}) }}">Modifier</a>
