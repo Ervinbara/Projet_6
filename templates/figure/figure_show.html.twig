@@ -2,8 +2,8 @@
 
 {% block stylesheets %}
     <link rel="stylesheet" type="text/css" href="../assets/css/navbar_other_page.css"/>
-    <link rel="stylesheet" type="text/css" href="{{asset('assets/css/slideshow.css')}}"/>
-    <link rel="stylesheet" type="text/css" href="{{asset('assets/css/loadmore_figures_comments.css')}}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/slideshow.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/loadmore_figures_comments.css') }}"/>
 {% endblock %}
 
     {% block banner %}
@@ -11,139 +11,165 @@
             {% if figure.images | length > 0 %}
                 <figure>
                     <figcaption>Trick : {{ figure.name }}</figcaption>
-                    <img class="banner-img" src="{{ asset('/images/figures/uploads/'~figure.images[0].name) }}" alt="figure">
-                    <span class="btn btn-primary"><a href="{{ path('edit_figure',{'id': figure.id}) }}">Modifier</a></span>
+                    <img class="banner-img" src="{{ asset('/images/figures/uploads/'~figure.images[0].name) }}"
+                         alt="figure">
                 </figure>
             {% else %}
                 <img class="banner-img" src="{{ asset('/images/figures/uploads/default.jpg') }}" alt="figure">
                 <span>Trick : {{ figure.name }}</span>
+            {% endif %}
+            {% if app.user %}
+                <a class="btn btn-primary update-btn" href="{{ path('edit_figure',{'id': figure.id}) }}">Modifier</a>
             {% endif %}
         </section>
     {% endblock %}
 
 {% block body %}
     <div class="visual-content">
-        {# Multiple slider images #}
-        <div class="container">
-            <div class="carousel slide multi-item-carousel" id="theCarousel">
-                    <div class="carousel-inner row w-100 mx-auto">
-                        <div class="carousel-item active col-md-4">
-                            <img src="{{ asset('/images/figures/uploads/'~figure.images[0].name) }}" width="200" height="130" alt="figure" class="img-fluid mx-auto d-block">
-                        </div>
-                        {% for image in figure.images %}
-                            <div class="carousel-item col-md-4">
-                                <img src="{{ asset('/images/figures/uploads/'~image.name) }}" width="200" height="130" alt="figure" class="img-fluid mx-auto d-block">
-                            </div>
-                        {% endfor %}
-                    </div>
-                    <a class="carousel-control-prev" href="#theCarousel" role="button" data-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="carousel-control-next" href="#theCarousel" role="button" data-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Next</span>
-                    </a>
-            </div>
-        </div>
-
-        {# Multiple slider videos #}
-        <div class="container">
-            <div class="carousel slide multi-item-carousel" id="theCarousel-video">
-                <div class="carousel-inner row w-100 mx-auto">
-                    <div class="carousel-item active col-md-4">
-                        <iframe width="200" height="130" src="https://www.youtube.com/embed/{{figure.videos[0].name}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                    </div>
-                    {% for video in figure.videos %}
-                        <div class="carousel-item col-md-4">
-                            <iframe width="200" height="130" src="https://www.youtube.com/embed/{{video.name}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        </div>
-                    {% endfor %}
+        <div class="wrapper d-flex flex-wrap">
+            {% for image in figure.images %}
+                <div >
+                    <img src="{{ asset('/images/figures/uploads/'~image.name) }}" width="200" height="130" alt="figure"
+                         class="img-fluid d-block">
                 </div>
-                <a class="carousel-control-prev" href="#theCarousel-video" role="button" data-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Previous</span>
-                </a>
-                <a class="carousel-control-next" href="#theCarousel-video" role="button" data-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Next</span>
-                </a>
-            </div>
+            {% endfor %}
+
+{# margin-right : 5px pour espacer les element entre eux #}
+            {% for video in figure.videos %}
+                <div>
+                    <iframe width="150" height="100" src="https://www.youtube.com/embed/{{ video.name }}"
+                            title="YouTube video player" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen></iframe>
+                </div>
+            {% endfor %}
         </div>
     </div>
 
-    <h2>Description : </h2>
-        <p>
-            {{ figure.description|raw }}
-        </p>
 
+    {#    <div class="visual-content wrapper"> #}
+
+    {# Multiple slider images #}
+    {#        <div class="container"> #}
+    {#            <div class="carousel slide multi-item-carousel" id="theCarousel"> #}
+    {#                    <div class="carousel-inner row w-100 mx-auto"> #}
+    {#                        <div class="carousel-item active col-md-3"> #}
+    {#                            <img src="{{ asset('/images/figures/uploads/'~figure.images[0].name) }}" width="200" height="130" alt="figure" class="img-fluid mx-auto d-block"> #}
+    {#                        </div> #}
+    {#                        {% for image in figure.images %} #}
+    {#                            <div class="carousel-item col-md-3"> #}
+    {#                                <img src="{{ asset('/images/figures/uploads/'~image.name) }}" width="200" height="130" alt="figure" class="img-fluid mx-auto d-block"> #}
+    {#                            </div> #}
+    {#                        {% endfor %} #}
+    {#                    </div> #}
+    {#                    <a class="carousel-control-prev" href="#theCarousel" role="button" data-slide="prev"> #}
+    {#                        <span class="carousel-control-prev-icon" aria-hidden="true"></span> #}
+    {#                        <span class="sr-only">Previous</span> #}
+    {#                    </a> #}
+    {#                    <a class="carousel-control-next" href="#theCarousel" role="button" data-slide="next"> #}
+    {#                        <span class="carousel-control-next-icon" aria-hidden="true"></span> #}
+    {#                        <span class="sr-only">Next</span> #}
+    {#                    </a> #}
+    {#            </div> #}
+    {#        </div> #}
+
+    {#        #}{# Multiple slider videos #}
+    {#        <div class="container"> #}
+    {#            <div class="carousel slide multi-item-carousel" id="theCarousel-video"> #}
+    {#                <div class="carousel-inner row w-100 mx-auto"> #}
+    {#                    <div class="carousel-item active col-md-3"> #}
+    {#                        <iframe width="200" height="130" src="https://www.youtube.com/embed/{{figure.videos[0].name}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> #}
+    {#                    </div> #}
+    {#                    {% for video in figure.videos %} #}
+    {#                        <div class="carousel-item col-md-3"> #}
+    {#                            <iframe width="200" height="130" src="https://www.youtube.com/embed/{{video.name}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> #}
+    {#                        </div> #}
+    {#                    {% endfor %} #}
+    {#                </div> #}
+    {#                <a class="carousel-control-prev" href="#theCarousel-video" role="button" data-slide="prev"> #}
+    {#                    <span class="carousel-control-prev-icon" aria-hidden="true"></span> #}
+    {#                    <span class="sr-only">Previous</span> #}
+    {#                </a> #}
+    {#                <a class="carousel-control-next" href="#theCarousel-video" role="button" data-slide="next"> #}
+    {#                    <span class="carousel-control-next-icon" aria-hidden="true"></span> #}
+    {#                    <span class="sr-only">Next</span> #}
+    {#                </a> #}
+    {#            </div> #}
+    {#        </div> #}
+
+    <h2>Description : </h2>
+    <p>
+        {{ figure.description|raw }}
+    </p>
     <div class="info">
         <h3>Catégorie : {{ figure.category.title }}</h3>
         <h3>Crée le : {{ figure.createdAt|date('s/m/h/d/m/Y') }}</h3>
-        <h3>Modifier le : {{ figure.modifyAt|date('s/m/h/d/m/Y') }}</h3>
+        {% if figure.modifyAt is not empty %}
+            <h3>Modifier le : {{ figure.modifyAt|date('s/m/h/d/m/Y') }}</h3>
+        {% endif %}
     </div>
+    <br>
 
-    <a class="nav-link" href="{{ path('edit_figure',{'id': figure.id}) }}">Modifier</a>
+    <section id="commentaires">
+        <div class="mt-5">
+            <div class="justify-content-center">
+                <div>
+                    <div class="headings d-flex justify-content-between align-items-center mb-3">
+                        <h3>Commentaires : {{ figure.comments | length }}</h3>
+                    </div>
 
-<br>
-
-<section id="commentaires">
-    <div class="mt-5">
-        <div class="justify-content-center">
-            <div>
-                <div class="headings d-flex justify-content-between align-items-center mb-3">
-                    <h3>Commentaires : {{ figure.comments | length }}</h3>
-                </div>
-
-                <div id="comments">
-                    {% for comment in figure.comments %}
-                        <div class="card p-3 mt-2 content">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="user d-flex flex-row align-items-center"> <img src="{{asset('images/pictures/' ~ comment.user.imageName)}}" width="55" height="55" class="user-img rounded-circle mr-2">
-                                    <span>
-                                        <small class="font-weight-bold">{{comment.user.username}} : </small>
-                                        <small class="font-weight">{{comment.content | raw}}</small>
+                    <div id="comments">
+                        {% for comment in figure.comments %}
+                            <div class="card p-3 mt-2 content">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="user d-flex flex-row align-items-center"><img
+                                                src="{{ asset('images/pictures/' ~ comment.user.imageName) }}"
+                                                width="55" height="55" class="user-img rounded-circle mr-2">
+                                        <span>
+                                        <small class="font-weight-bold">{{ comment.user.username }} : </small>
+                                        <small class="font-weight">{{ comment.content | raw }}</small>
                                     </span>
+                                    </div>
+                                    <small> {{ comment.createdAt | date('d/m/Y') }}</small>
                                 </div>
-                                <small> {{comment.createdAt | date('d/m/Y')}}</small>
+                                <div class="action d-flex justify-content-between mt-2 align-items-center">
+                                    <div class="icons align-items-center"><i
+                                                class="fa fa-check-circle-o check-icon text-primary"></i></div>
+                                </div>
                             </div>
-                            <div class="action d-flex justify-content-between mt-2 align-items-center">
-                                <div class="icons align-items-center"> <i class="fa fa-check-circle-o check-icon text-primary"></i></div>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
+                        {% endfor %}
+                    </div>
 
-                {% if figure.comments | length > 5 %}
-                    <a id="loadMore" data-offset="" data-limit="" href="#" >Voir plus</a>
-                {% endif %}
+                    {% if figure.comments | length > 5 %}
+                        <a id="loadMore" data-offset="" data-limit="" href="#">Voir plus</a>
+                    {% endif %}
+                </div>
             </div>
         </div>
-    </div>
-        
-    <br/>
-    <h3>Laisse un commentaire</h3>
-    {% if app.user %}
-    
-    {{form_start(commentForm)}}
 
-    {{form_row(commentForm.content,{'attr': {'placeholder':"Contenu"} }) }}
+        <br/>
+        <h3>Laisse un commentaire</h3>
+        {% if app.user %}
 
-    <button type="submit" class="btn btn-primary send">Envoyer</button>
+            {{ form_start(commentForm) }}
 
-    {{form_end(commentForm)}}
-    
-    {% else %}
-        <h3>Connexion requise</h3>
-        <p><a href="{{path('security_login')}}" class="btn btn-primary">Connexion</a>
-        ou <a href="{{path('security_registration')}}" class="btn btn-primary">Pas de compte ?</a>
-        </p>
-    {% endif %}
+            {{ form_row(commentForm.content,{'attr': {'placeholder':"Contenu"} }) }}
 
-</section>
+            <button type="submit" class="btn btn-primary send">Envoyer</button>
+
+            {{ form_end(commentForm) }}
+
+        {% else %}
+            <h3>Connexion requise</h3>
+            <p><a href="{{ path('security_login') }}" class="btn btn-primary">Connexion</a>
+                ou <a href="{{ path('security_registration') }}" class="btn btn-primary">Pas de compte ?</a>
+            </p>
+        {% endif %}
+
+    </section>
 {% endblock %}
 
 {% block javascripts %}
-    <script type="text/javascript" src="{{asset('assets/js/slideshow.js')}}"></script>
-    <script type="text/javascript" src="{{asset('assets/js/loadmore_figures_comments.js')}}"></script>
+    <script type="text/javascript" src="{{ asset('assets/js/slideshow.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/js/loadmore_figures_comments.js') }}"></script>
 {% endblock %}

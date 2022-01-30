@@ -103,8 +103,8 @@ class FigureController extends AbstractController
 
     /**
      * Ajout et modification de tricks
-     * @Route("/figure/new", name="add_figure")
-     * @Route("/figure/{id}/edit", name="edit_figure")
+     * @Route("/new/figure", name="add_figure")
+     * @Route("/edit/figure/{id}/edit", name="edit_figure")
      */
     public function form(Figure $figure = null, Request $request, EntityManagerInterface $manager)
     {
@@ -137,12 +137,12 @@ class FigureController extends AbstractController
             }
 
             if ($newFigure) {
-                $figure->setCreatedAt(new \DateTimeImmutable);
                 $manager->persist($figure);
             }
-//            else{
-//                $figure->setModifyAt(new \DateTimeImmutable);
-//            }
+            else{
+                $figure->setModifyAt(new \DateTimeImmutable());
+            }
+//            dd($figure);
             $manager->flush();
             $this->addFlash('success', 'Figure ajouté !');
 

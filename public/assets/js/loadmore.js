@@ -5,11 +5,7 @@ $(document).ready(function(){
     $("#loadMore").on("click", function(e) {
         e.preventDefault();
         // Si il n'y a plus de contenu à charger, on change le texte du bouton "Voir plus" en "No content"
-        if (parseInt(document.getElementById("loadMore").dataset.offset) >= parseInt(document.getElementById("loadMore").dataset.limit)){
-            // console.log("arrertttetee");
-            document.getElementById("loadMore").text = "No content";
-            return 0;
-        }
+
         $.ajax({
             type:"GET",
             url:`http://localhost:8000/${parseInt(this.dataset.offset)}`,
@@ -23,6 +19,11 @@ $(document).ready(function(){
                         // Incrémenter de 8 la veleur de data-offset
                         // this.id += 8;
                         document.getElementById("loadMore").dataset.offset = `${increment + 8}`;
+                    if (parseInt(document.getElementById("loadMore").dataset.offset) >= parseInt(document.getElementById("loadMore").dataset.limit)){
+                        // console.log("arrertttetee");
+                        btn.addClass('d-none');
+                        return 0;
+                    }
                 }, 100);
             }});
     });

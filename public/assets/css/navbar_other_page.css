@@ -85,3 +85,9 @@ header{
     border: 1px solid rgb(91, 91, 145);
     text-decoration: none;
 }
+
+.update-btn{
+    position: absolute;
+    right: 0;
+    top: 80px;
+}

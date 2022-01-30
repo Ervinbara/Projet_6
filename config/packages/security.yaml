@@ -42,4 +42,6 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: /user, roles: ROLE_USER }
+        - { path: /edit, roles: ROLE_USER }
+        - { path: /new, roles: ROLE_USER }
         
