@@ -44,4 +44,5 @@ security:
         - { path: /user, roles: ROLE_USER }
         - { path: /edit, roles: ROLE_USER }
         - { path: /new, roles: ROLE_USER }
-        
+        - { path: /delete, roles: ROLE_USER }
+

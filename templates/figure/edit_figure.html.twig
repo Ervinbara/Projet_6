@@ -62,6 +62,7 @@
 
         <br/>
         <button type="submit" class="btn btn-success">Ajouter ce trick</button>
+        <a class="btn btn-danger delete-btn" href="{{ path('delete_figure',{'id': figure.id}) }}" onclick="return confirm('Voulez vous vraiment supprimer ce trick ?')">Supprimer ce trick ?</a>
         {{ form_end(form, {render_rest: false}) }}
     </div>
 

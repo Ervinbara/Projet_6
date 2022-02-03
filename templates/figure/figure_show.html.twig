@@ -20,6 +20,7 @@
             {% endif %}
             {% if app.user %}
                 <a class="btn btn-primary update-btn" href="{{ path('edit_figure',{'id': figure.id}) }}">Modifier</a>
+                <a class="btn btn-danger delete-btn" href="{{ path('delete_figure',{'id': figure.id}) }}" onclick="return confirm('Voulez vous vraiment supprimer ce trick ?')">Supprimer</a>
             {% endif %}
         </section>
     {% endblock %}

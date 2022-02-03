@@ -190,6 +190,19 @@ class FigureController extends AbstractController
         ]);
     }
 
+    /**
+     * Suppression d'une figure
+     * @Route("/delete/figure/{id}/delete", name="delete_figure")
+    */
+    public function deleteFigure(Figure $figure)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($figure);
+        $em->flush();
+
+        return $this->redirectToRoute('home');
+    }
+
 
     /**
      * Suppression d'une image liée à un trick

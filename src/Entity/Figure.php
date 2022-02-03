@@ -32,12 +32,12 @@ class Figure
     private $description;
 
     /**
-     * @ORM\OneToMany(targetEntity=Images::class, mappedBy="figure", orphanRemoval=true, cascade={"persist"})
+     * @ORM\OneToMany(targetEntity=Images::class, mappedBy="figure", orphanRemoval=true, cascade={"persist", "remove"})
      */
     private $images;
 
     /**
-     * @ORM\OneToMany(targetEntity=Videos::class, mappedBy="figure", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity=Videos::class, mappedBy="figure", cascade={"persist","remove"})
      */
     private $videos;
 
@@ -48,7 +48,7 @@ class Figure
     private $category;
 
     /**
-     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="figure", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="figure", orphanRemoval=true, cascade={"remove"})
      */
     private $comments;
 
