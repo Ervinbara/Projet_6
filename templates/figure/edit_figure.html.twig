@@ -29,12 +29,15 @@
 
         {# Ajout de d'images #}
         {{ form_widget(form.images) }}
-        {% for image in figure.images %}
-            <div>
-                <img src="{{ asset('/images/figures/uploads/'~image.name) }}" alt="figure" width="150">
-                <a href="{{ path('figure_delete_image', {id: image.id})}}" data-delete data-token="{{ csrf_token('delete' ~ image.id )}}">Supprimer</a>
-            </div>
-        {% endfor %}
+        <div class="wrapper d-flex flex-wrap">
+            {% for image in figure.images %}
+                <div class="edit_figure_image">
+                    <img src="{{ asset('/images/figures/uploads/'~image.name) }}" alt="figure" width="150">
+                    <a class="btn btn-danger" href="{{ path('figure_delete_image', {id: image.id})}}" data-delete data-token="{{ csrf_token('delete' ~ image.id )}}">Supprimer</a>
+                </div>
+            {% endfor %}
+        </div>
+        <br />
 
         {# Ajout de video #}
 
@@ -62,7 +65,9 @@
 
         <br/>
         <button type="submit" class="btn btn-success">Ajouter ce trick</button>
-        <a class="btn btn-danger delete-btn" href="{{ path('delete_figure',{'id': figure.id}) }}" onclick="return confirm('Voulez vous vraiment supprimer ce trick ?')">Supprimer ce trick ?</a>
+        {% if figure.id is not none %}
+            <a class="btn btn-danger" href="{{ path('delete_figure',{'id': figure.id}) }}" onclick="return confirm('Voulez vous vraiment supprimer ce trick ?')">Supprimer ce trick ?</a>
+        {% endif %}
         {{ form_end(form, {render_rest: false}) }}
     </div>
 

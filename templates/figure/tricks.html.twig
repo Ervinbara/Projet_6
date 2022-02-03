@@ -1,19 +1,26 @@
 {% for figure in figures %}
     <div class="card">
         <div class="card-banner">
-            <p class="category-tag popular">{{ figure.category.title }}</p>
-            {% if figure.images | length > 0 %}
-                <a href="{{ path('figure_show', {'id': figure.id}) }}">
+            <a href="{{ path('figure_show', {'id': figure.id}) }}">
+                {% if figure.category.title is defined %}
+                    <p class="category-tag popular">{{ figure.category.title }}</p>
+                    {% else %}
+                        <p class="category-tag popular">Non repertorié</p>
+                {% endif %}
+                {% if figure.images | length > 0 %}
                     <img class="banner-img" src="{{ asset('/images/figures/uploads/'~figure.images[0].name) }}"
                          alt="figure" width="150">
-                </a>
-            {% endif %}
+                {% endif %}
+            </a>
         </div>
         <div class="card-body">
-            <h2 class="blog-title">{{ figure.name }}</h2>
-            <div class="btn-more-update">
-                <a class="btn btn-primary" href="{{ path('figure_show', {'id': figure.id}) }}">Voir plus</a>
-                <a class="btn btn-success" href="{{ path('edit_figure',{'id': figure.id}) }}">Modifier</a>
+
+            <div class="btn-info-trick">
+                <a href="{{ path('figure_show', {'id': figure.id}) }}" style="color: black">
+                    {{ figure.name }}
+                </a>
+                <a href="{{ path('edit_figure',{'id': figure.id}) }}"><i class="fas fa-pencil-alt"></i></a>
+                <a href="{{ path('delete_figure',{'id': figure.id}) }}" onclick="return confirm('Voulez vous vraiment supprimer ce trick ?')"><i class="fas fa-trash-alt"></i></a>
             </div>
         </div>
     </div>

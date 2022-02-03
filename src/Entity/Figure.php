@@ -43,7 +43,7 @@ class Figure
 
     /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="figures")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $category;
 

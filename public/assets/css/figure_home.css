@@ -107,9 +107,14 @@
     font-size: 0.9rem;
   }
   
-  /*Btn voir plus et update*/
-  .btn-more-update {
+/*Btn voir plus et update et suppression*/
+  .btn-info-trick {
     display: flex;
+    justify-content: space-around;
+  }
+
+  .fa-trash-alt{
+    color: #d44e4e;
   }
 
   /* Load more figure  */

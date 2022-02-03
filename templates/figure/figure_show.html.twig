@@ -15,12 +15,14 @@
                          alt="figure">
                 </figure>
             {% else %}
-                <img class="banner-img" src="{{ asset('/images/figures/uploads/default.jpg') }}" alt="figure">
-                <span>Trick : {{ figure.name }}</span>
+                <figure>
+                    <figcaption>Trick : {{ figure.name }}</figcaption>
+                    <img class="banner-img" src="{{ asset('/images/figures/uploads/default.jpg') }}" alt="figure">
+                </figure>
             {% endif %}
             {% if app.user %}
-                <a class="btn btn-primary update-btn" href="{{ path('edit_figure',{'id': figure.id}) }}">Modifier</a>
-                <a class="btn btn-danger delete-btn" href="{{ path('delete_figure',{'id': figure.id}) }}" onclick="return confirm('Voulez vous vraiment supprimer ce trick ?')">Supprimer</a>
+                <a class="btn btn-primary update-btn" href="{{ path('edit_figure',{'id': figure.id}) }}"><i class="fas fa-pencil-alt"></i></a>
+                <a class="btn btn-danger delete-btn" href="{{ path('delete_figure',{'id': figure.id}) }}" onclick="return confirm('Voulez vous vraiment supprimer ce trick ?')"><i class="fas fa-trash-alt"></i></a>
             {% endif %}
         </section>
     {% endblock %}
@@ -29,16 +31,15 @@
     <div class="visual-content">
         <div class="wrapper d-flex flex-wrap">
             {% for image in figure.images %}
-                <div >
-                    <img src="{{ asset('/images/figures/uploads/'~image.name) }}" width="200" height="130" alt="figure"
-                         class="img-fluid d-block">
+                <div>
+                    <img src="{{ asset('/images/figures/uploads/'~image.name) }}" width="180" height="130" alt="figure">
                 </div>
             {% endfor %}
 
 {# margin-right : 5px pour espacer les element entre eux #}
             {% for video in figure.videos %}
                 <div>
-                    <iframe width="150" height="100" src="https://www.youtube.com/embed/{{ video.name }}"
+                    <iframe width="180" height="130" src="https://www.youtube.com/embed/{{ video.name }}"
                             title="YouTube video player" frameborder="0"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                             allowfullscreen></iframe>
@@ -103,7 +104,11 @@
         {{ figure.description|raw }}
     </p>
     <div class="info">
-        <h3>Catégorie : {{ figure.category.title }}</h3>
+        {% if figure.category.title is defined %}
+            <h3>Catégorie : {{ figure.category.title }}</h3>
+        {% else %}
+            <h3> Catégorie : Non repertorié</h3>
+        {% endif %}
         <h3>Crée le : {{ figure.createdAt|date('s/m/h/d/m/Y') }}</h3>
         {% if figure.modifyAt is not empty %}
             <h3>Modifier le : {{ figure.modifyAt|date('s/m/h/d/m/Y') }}</h3>
