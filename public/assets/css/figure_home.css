@@ -156,3 +156,10 @@
 .anchor-up i{
   color: black;
 }
+
+/* Ancre up version mobile*/
+@media (max-width: 725px) {
+  .anchor-up{
+    top: 525%;
+  }
+}

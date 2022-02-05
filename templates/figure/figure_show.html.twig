@@ -103,17 +103,29 @@
     <p>
         {{ figure.description|raw }}
     </p>
-    <div class="info">
+{#    <div class="info">#}
+{#        {% if figure.category.title is defined %}#}
+{#            <h3>Catégorie : {{ figure.category.title }}</h3>#}
+{#        {% else %}#}
+{#            <h3> Catégorie : Non repertorié</h3>#}
+{#        {% endif %}#}
+{#        <h3>Crée le : {{ figure.createdAt|date('d/m/Y') }} à {{ figure.createdAt|date('H:i:s') }}</h3>#}
+{#        {% if figure.modifyAt is not empty %}#}
+{#            <h3>Modifier le : {{ figure.modifyAt|date('d/m/Y') }} à {{ figure.modifyAt|date('H:i:s') }}</h3>#}
+{#        {% endif %}#}
+{#    </div>#}
+
+    <ul class="tags">
         {% if figure.category.title is defined %}
-            <h3>Catégorie : {{ figure.category.title }}</h3>
+            <li><p class="tag">{{ figure.category.title }}</p></li>
         {% else %}
-            <h3> Catégorie : Non repertorié</h3>
+            <li><p> Catégorie : Non repertorié</p></li>
         {% endif %}
-        <h3>Crée le : {{ figure.createdAt|date('s/m/h/d/m/Y') }}</h3>
+        <li><p class="tag">Crée le : {{ figure.createdAt|date('d/m/Y') }} à {{ figure.createdAt|date('H:i:s') }}</p></li>
         {% if figure.modifyAt is not empty %}
-            <h3>Modifier le : {{ figure.modifyAt|date('s/m/h/d/m/Y') }}</h3>
+            <li><p class="tag">Modifier le : {{ figure.modifyAt|date('d/m/Y') }} à {{ figure.modifyAt|date('H:i:s') }}</p></li>
         {% endif %}
-    </div>
+    </ul>
     <br>
 
     <section id="commentaires">
@@ -136,7 +148,7 @@
                                         <small class="font-weight">{{ comment.content | raw }}</small>
                                     </span>
                                     </div>
-                                    <small> {{ comment.createdAt | date('d/m/Y') }}</small>
+                                    <small> {{ comment.createdAt | date('d/m/Y') }} à {{ comment.createdAt|date('H:i:s') }}</small>
                                 </div>
                                 <div class="action d-flex justify-content-between mt-2 align-items-center">
                                     <div class="icons align-items-center"><i

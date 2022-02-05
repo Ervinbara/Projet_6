@@ -56,8 +56,6 @@ class FigureController extends AbstractController
      */
     public function forum(Request $request, EntityManagerInterface $manager, CommentRepository $repo,int $coms = 0)
     {
-
-
         $comment = new Comment();
 
         // On récupère tout les commentaire qui ne sont pas attribué à une figure càd ou figure_id == NULL

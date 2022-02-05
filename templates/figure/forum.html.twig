@@ -16,7 +16,7 @@
                     <div id="comments">
                         {{ include("figure/comments_forum.html.twig") }}
                     </div>
-                    {% if total_comments > 5 %}
+                    {% if total_comments > 4 %}
                         <a id="loadMore" data-offset="{{ coms }}" data-limit="{{ total_comments }}" href="#" >Voir plus</a>
                     {% endif %}
                 </div>
