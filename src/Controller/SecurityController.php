@@ -87,10 +87,8 @@ class SecurityController extends AbstractController
         $date = new \DateTime(); 
 
         if($date > $user->getTokenExpiration()){
-            // throw new \RuntimeException('Le Token n\'est plus valide');
             $this->addFlash('warning', 'Le Token n\'est plus valide');
             return $this->redirectToRoute('security_token_expiration');
-            // TODO : Proposer un ré-envoi de mail d'activation
         }
         // On supprime le token
         $user->setActive(true);
@@ -139,7 +137,6 @@ class SecurityController extends AbstractController
 
             // On génère un token
             $token = $tokenGenerator->generateToken();
-            // $user->setTokenActivation(md5(uniqid()));
 
             // On essaie d'écrire le token en base de données
             try{
@@ -211,7 +208,6 @@ class SecurityController extends AbstractController
 
             // On génère un token
             $token = $tokenGenerator->generateToken();
-            // $user->setTokenActivation(md5(uniqid()));
 
             // On essaie d'écrire le token en base de données
             try{
@@ -269,7 +265,6 @@ class SecurityController extends AbstractController
             $user->setTokenActivation(null);
 
             // On chiffre le mot de passe
-            // $hash = $encoder->hashPassword($user, $user->getPassword());
             $user->setPassword($encoder->hashPassword($user, $request->request->get('password')));
 
             // On stocke en base 

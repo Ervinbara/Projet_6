@@ -140,13 +140,11 @@ class FigureController extends AbstractController
             else{
                 $figure->setModifyAt(new \DateTimeImmutable());
             }
-//            dd($figure);
             $manager->flush();
             $this->addFlash('success', 'Figure ajouté !');
 
             return $this->redirectToRoute('figure_show', ['id' => $figure->getId()]);
         }
-//        dd($form->createView());
 
         return $this->render('figure/edit_figure.html.twig', [
             'controller_name' => 'FigureController',
@@ -160,7 +158,7 @@ class FigureController extends AbstractController
      * Affichage d'un trick en particulier
      * @Route("/show_figure/{id}", name="figure_show")
      */
-    public function figure_show(Figure $figure, Request $request, EntityManagerInterface $manager, FigureRepository $repo)
+    public function figureShow(Figure $figure, Request $request, EntityManagerInterface $manager, FigureRepository $repo)
     {
         $comment = new Comment();
 

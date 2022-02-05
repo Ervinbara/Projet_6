@@ -165,7 +165,6 @@ class User implements UserInterface,PasswordAuthenticatedUserInterface, Serializ
      */
     public function getRoles(): array
     {
-        // $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
         return ['ROLE_USER'];
     }
