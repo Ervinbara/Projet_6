@@ -204,9 +204,8 @@ class FigureController extends AbstractController
     public function deleteImage(Images $image, Request $request)
     {
         $data = json_decode($request->getContent(), true);
-        $image_id = $request->get('id');
         // On vérifie si le token est valide
-        if ($this->isCsrfTokenValid('delete' . $image_id, $data['_token'])) {
+        if ($this->isCsrfTokenValid('delete', $data['_token'])) {
             // On récupère le nom de l'image
             $nom = $image->getName();
             // On supprime le fichier

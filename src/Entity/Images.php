@@ -32,12 +32,12 @@ class Images
         return $this->id;
     }
 
-    public function getFigureId(): ?Figure
+    public function getFigure(): ?Figure
     {
         return $this->figure;
     }
 
-    public function setFigureId(?Figure $figure): self
+    public function setFigure(?Figure $figure): self
     {
         $this->figure = $figure;
 

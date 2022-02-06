@@ -4,3 +4,10 @@
         height: 200px!important;
     }
 }
+
+.video_miniature iframe,.video_miniature div {
+    max-width: 180px!important;
+    max-height:130px!important;
+    width: 180px!important;
+    height:130px!important;
+}

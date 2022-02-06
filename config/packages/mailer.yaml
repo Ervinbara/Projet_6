@@ -1,8 +1,8 @@
 framework:
-    mailer:
-        dsn: '%env(MAILER_DSN)%'
-        envelope:
-            sender: 'lokidog1797@gmail.com'
-        headers:
-            from: 'Loki <lokidog1797@gmail.com>'
-            X-Custom-Header: 'foobar'
+  mailer:
+    dsn: '%env(MAILER_DSN)%'
+    envelope:
+      sender: 'lokidog1797@gmail.com'
+    headers:
+      from: 'Loki <lokidog1797@gmail.com>'
+      X-Custom-Header: 'foobar'

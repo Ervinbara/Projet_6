@@ -112,7 +112,7 @@ class Figure
     {
         if (!$this->images->contains($image)) {
             $this->images[] = $image;
-            $image->setFigureId($this);
+            $image->setFigure($this);
         }
 
         return $this;
@@ -122,8 +122,8 @@ class Figure
     {
         if ($this->images->removeElement($image)) {
             // set the owning side to null (unless already changed)
-            if ($image->getFigureId() === $this) {
-                $image->setFigureId(null);
+            if ($image->getFigure() === $this) {
+                $image->setFigure(null);
             }
         }
 
@@ -142,7 +142,7 @@ class Figure
     {
         if (!$this->videos->contains($video)) {
             $this->videos[] = $video;
-            $video->setFigureId($this);
+            $video->setFigure($this);
         }
 
         return $this;
@@ -152,8 +152,8 @@ class Figure
     {
         if ($this->videos->removeElement($video)) {
             // set the owning side to null (unless already changed)
-            if ($video->getFigureId() === $this) {
-                $video->setFigureId(null);
+            if ($video->getFigure() === $this) {
+                $video->setFigure(null);
             }
         }
 

@@ -42,11 +42,8 @@
 
             {# margin-right : 5px pour espacer les element entre eux #}
             {% for video in figure.videos %}
-                <div>
-                    <iframe width="180" height="130" src="{{ video.name }}"
-                            title="Video player" frameborder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowfullscreen></iframe>
+                <div class="video_miniature">
+                    {{ video.html|raw }}
                 </div>
             {% endfor %}
         </div>

@@ -23,36 +23,49 @@ class Videos
     private $figure;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
-    private $name;
+    private $html;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getFigureId(): ?Figure
+    /**
+     * @return mixed
+     */
+    public function getFigure()
     {
         return $this->figure;
     }
 
-    public function setFigureId(?Figure $figure): self
+    /**
+     * @param mixed $figure
+     */
+    public function setFigure($figure): void
     {
         $this->figure = $figure;
-
-        return $this;
     }
 
-    public function getName(): ?string
+
+
+    /**
+     * @return mixed
+     */
+    public function getHtml()
     {
-        return $this->name;
+        return $this->html;
     }
 
-    public function setName(?string $name): self
+    /**
+     * @param mixed $html
+     */
+    public function setHtml($html): void
     {
-        $this->name = $name;
-
-        return $this;
+        $this->html = $html;
     }
+
+
+
 }
