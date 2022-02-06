@@ -107,7 +107,7 @@ header {
 }
 
 /* Partie edition d'une figure */
-.edit_figure_image img {
+.edit_figure_image img,iframe {
     display: flex;
     margin-bottom: 5px;
 }

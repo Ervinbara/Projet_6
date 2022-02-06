@@ -4,8 +4,8 @@
             <a href="{{ path('figure_show', {'id': figure.id}) }}">
                 {% if figure.category.title is defined %}
                     <p class="category-tag popular">{{ figure.category.title }}</p>
-                    {% else %}
-                        <p class="category-tag popular">Non repertorié</p>
+                {% else %}
+                    <p class="category-tag popular">Non repertorié</p>
                 {% endif %}
                 {% if figure.images | length > 0 %}
                     <img class="banner-img" src="{{ asset('/images/figures/uploads/'~figure.images[0].name) }}"
@@ -19,10 +19,15 @@
                 <a href="{{ path('figure_show', {'id': figure.id}) }}" style="color: black">
                     {{ figure.name }}
                 </a>
+                {% if app.user %}
                 <a href="{{ path('edit_figure',{'id': figure.id}) }}"><i class="fas fa-pencil-alt"></i></a>
-                <a href="{{ path('delete_figure',{'id': figure.id}) }}" onclick="return confirm('Voulez vous vraiment supprimer ce trick ?')"><i class="fas fa-trash-alt"></i></a>
+                <a href="{{ path('delete_figure',{'id': figure.id}) }}"
+                   onclick="return confirm('Voulez vous vraiment supprimer ce trick ?')"><i
+                            class="fas fa-trash-alt"></i></a>
+                {% endif %}
             </div>
         </div>
     </div>
 {% endfor %}
+
 

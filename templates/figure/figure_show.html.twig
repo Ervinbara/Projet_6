@@ -2,7 +2,7 @@
 
 {% block stylesheets %}
     <link rel="stylesheet" type="text/css" href="../assets/css/navbar_other_page.css"/>
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/slideshow.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/content.css') }}"/>
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/loadmore_figures_comments.css') }}"/>
 {% endblock %}
 
@@ -21,14 +21,18 @@
                 </figure>
             {% endif %}
             {% if app.user %}
-                <a class="btn btn-primary update-btn" href="{{ path('edit_figure',{'id': figure.id}) }}"><i class="fas fa-pencil-alt"></i></a>
-                <a class="btn btn-danger delete-btn" href="{{ path('delete_figure',{'id': figure.id}) }}" onclick="return confirm('Voulez vous vraiment supprimer ce trick ?')"><i class="fas fa-trash-alt"></i></a>
+                <a class="btn btn-primary update-btn" href="{{ path('edit_figure',{'id': figure.id}) }}"><i
+                            class="fas fa-pencil-alt"></i></a>
+                <a class="btn btn-danger delete-btn" href="{{ path('delete_figure',{'id': figure.id}) }}"
+                   onclick="return confirm('Voulez vous vraiment supprimer ce trick ?')"><i
+                            class="fas fa-trash-alt"></i></a>
             {% endif %}
         </section>
     {% endblock %}
 
 {% block body %}
     <div class="visual-content">
+        <h2>Images et vidéos </h2>
         <div class="wrapper d-flex flex-wrap">
             {% for image in figure.images %}
                 <div>
@@ -36,11 +40,11 @@
                 </div>
             {% endfor %}
 
-{# margin-right : 5px pour espacer les element entre eux #}
+            {# margin-right : 5px pour espacer les element entre eux #}
             {% for video in figure.videos %}
                 <div>
-                    <iframe width="180" height="130" src="https://www.youtube.com/embed/{{ video.name }}"
-                            title="YouTube video player" frameborder="0"
+                    <iframe width="180" height="130" src="{{ video.name }}"
+                            title="Video player" frameborder="0"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                             allowfullscreen></iframe>
                 </div>
@@ -103,17 +107,17 @@
     <p>
         {{ figure.description|raw }}
     </p>
-{#    <div class="info">#}
-{#        {% if figure.category.title is defined %}#}
-{#            <h3>Catégorie : {{ figure.category.title }}</h3>#}
-{#        {% else %}#}
-{#            <h3> Catégorie : Non repertorié</h3>#}
-{#        {% endif %}#}
-{#        <h3>Crée le : {{ figure.createdAt|date('d/m/Y') }} à {{ figure.createdAt|date('H:i:s') }}</h3>#}
-{#        {% if figure.modifyAt is not empty %}#}
-{#            <h3>Modifier le : {{ figure.modifyAt|date('d/m/Y') }} à {{ figure.modifyAt|date('H:i:s') }}</h3>#}
-{#        {% endif %}#}
-{#    </div>#}
+    {#    <div class="info"> #}
+    {#        {% if figure.category.title is defined %} #}
+    {#            <h3>Catégorie : {{ figure.category.title }}</h3> #}
+    {#        {% else %} #}
+    {#            <h3> Catégorie : Non repertorié</h3> #}
+    {#        {% endif %} #}
+    {#        <h3>Crée le : {{ figure.createdAt|date('d/m/Y') }} à {{ figure.createdAt|date('H:i:s') }}</h3> #}
+    {#        {% if figure.modifyAt is not empty %} #}
+    {#            <h3>Modifier le : {{ figure.modifyAt|date('d/m/Y') }} à {{ figure.modifyAt|date('H:i:s') }}</h3> #}
+    {#        {% endif %} #}
+    {#    </div> #}
 
     <ul class="tags">
         {% if figure.category.title is defined %}
@@ -121,9 +125,11 @@
         {% else %}
             <li><p> Catégorie : Non repertorié</p></li>
         {% endif %}
-        <li><p class="tag">Crée le : {{ figure.createdAt|date('d/m/Y') }} à {{ figure.createdAt|date('H:i:s') }}</p></li>
+        <li><p class="tag">Crée le : {{ figure.createdAt|date('d/m/Y') }} à {{ figure.createdAt|date('H:i:s') }}</p>
+        </li>
         {% if figure.modifyAt is not empty %}
-            <li><p class="tag">Modifier le : {{ figure.modifyAt|date('d/m/Y') }} à {{ figure.modifyAt|date('H:i:s') }}</p></li>
+            <li><p class="tag">Modifier le : {{ figure.modifyAt|date('d/m/Y') }}
+                    à {{ figure.modifyAt|date('H:i:s') }}</p></li>
         {% endif %}
     </ul>
     <br>
@@ -137,7 +143,7 @@
                     </div>
 
                     <div id="comments">
-                        {% for comment in figure.comments %}
+                        {% for comment in figure.comments|reverse %}
                             <div class="card p-3 mt-2 content">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="user d-flex flex-row align-items-center"><img
@@ -148,7 +154,8 @@
                                         <small class="font-weight">{{ comment.content | raw }}</small>
                                     </span>
                                     </div>
-                                    <small> {{ comment.createdAt | date('d/m/Y') }} à {{ comment.createdAt|date('H:i:s') }}</small>
+                                    <small> {{ comment.createdAt | date('d/m/Y') }}
+                                        à {{ comment.createdAt|date('H:i:s') }}</small>
                                 </div>
                                 <div class="action d-flex justify-content-between mt-2 align-items-center">
                                     <div class="icons align-items-center"><i
@@ -158,8 +165,8 @@
                         {% endfor %}
                     </div>
 
-                    {% if figure.comments | length > 5 %}
-                        <a id="loadMore" data-offset="" data-limit="" href="#">Voir plus</a>
+                    {% if figure.comments | length > 10 %}
+                        <a id="loadMore" href="#">Voir plus</a>
                     {% endif %}
                 </div>
             </div>

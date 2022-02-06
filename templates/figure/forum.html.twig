@@ -17,7 +17,8 @@
                         {{ include("figure/comments_forum.html.twig") }}
                     </div>
                     {% if total_comments > 4 %}
-                        <a id="loadMore" data-offset="{{ coms }}" data-limit="{{ total_comments }}" href="#" >Voir plus</a>
+                        <a id="loadMore" data-offset="{{ coms }}" data-limit="{{ total_comments }}" href="#">Voir
+                            plus</a>
                     {% endif %}
                 </div>
             </div>
@@ -27,18 +28,18 @@
         <h3>Laisse un commentaire</h3>
         {% if app.user %}
 
-            {{form_start(commentForm)}}
+            {{ form_start(commentForm) }}
 
-            {{form_row(commentForm.content,{'attr': {'placeholder':"Contenu"} }) }}
+            {{ form_row(commentForm.content,{'attr': {'placeholder':"Contenu"} }) }}
 
             <button type="submit" class="btn btn-primary send">Envoyer</button>
 
-            {{form_end(commentForm)}}
+            {{ form_end(commentForm) }}
 
         {% else %}
             <h3>Connexion requise</h3>
-            <p><a href="{{path('security_login')}}" class="btn btn-primary">Connexion</a>
-                ou <a href="{{path('security_registration')}}" class="btn btn-primary">Pas de compte ?</a>
+            <p><a href="{{ path('security_login') }}" class="btn btn-primary">Connexion</a>
+                ou <a href="{{ path('security_registration') }}" class="btn btn-primary">Pas de compte ?</a>
             </p>
         {% endif %}
 
@@ -49,5 +50,4 @@
 
 {% block javascripts %}
     <script type="text/javascript" src="../assets/js/loadmore_forum_comments.js"></script>
-{#    <script type="text/javascript" src="{{asset('assets/js/loadmore_forum_comments.js"')}}"></script>#}
 {% endblock %}

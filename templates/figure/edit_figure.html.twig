@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block stylesheets %}
-    <link rel="stylesheet" type="text/css" href="{{asset('assets/css/navbar_other_page.css')}}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/navbar_other_page.css') }}"/>
 {% endblock %}
 
 {% block body %}
@@ -11,8 +11,10 @@
         <div class="figure_status">
             {% if figure.id is not none %}
                 <h1> Modification d'une figure </h1>
+                <br />
             {% else %}
                 <h1> Ajout d'une figure </h1>
+                <br />
             {% endif %}
         </div>
 
@@ -21,52 +23,62 @@
         {{ form_start(form) }}
         {{ form_widget(form._token) }}
         {{ form_widget(form.name, {'attr': {'placeholder': 'Nom de la figure'}}) }}
-
-        <h6>Catégorie de la figure : {{ form_widget(form.category) }}</h6>
+        {{ form_errors(form['name']) }}
+        <br />
         <h6>Description de la figure :</h6>
         {{ form_widget(form.description, {'attr': {'placeholder': 'Description de la figure'}}) }}
+        <br/>
+        <h6>Catégorie de la figure : {{ form_widget(form.category) }}</h6>
         <br />
-
         {# Ajout de d'images #}
         {{ form_widget(form.images) }}
         <div class="wrapper d-flex flex-wrap">
             {% for image in figure.images %}
                 <div class="edit_figure_image">
-                    <img src="{{ asset('/images/figures/uploads/'~image.name) }}" alt="figure" width="150">
-                    <a class="btn btn-danger" href="{{ path('figure_delete_image', {id: image.id})}}" data-delete data-token="{{ csrf_token('delete' ~ image.id )}}">Supprimer</a>
+                    <img src="{{ asset('/images/figures/uploads/'~image.name) }}" alt="figure" width="150" height="100">
+                    <a class="btn btn-danger" href="{{ path('figure_delete_image', {id: image.id}) }}" data-delete
+                       data-token="{{ csrf_token('delete' ~ image.id ) }}">Supprimer</a>
                 </div>
             {% endfor %}
         </div>
-        <br />
+        <br/>
 
         {# Ajout de video #}
 
         <button type="button" class="btn btn-primary btn-new" data-collection="#videos">Ajout de video</button>
         <div class="row" id="videos"
              data-prototype="{{ include("figure/_video.html.twig", {form: form.videos.vars.prototype })|e("html_attr") }}"
-             data-index="{{ form.videos|length > 0 ? form.videos|last.vars.name + 1 : 0}}">
-            {% for video in form.videos %}
-                <div class="col-4">
-                    {{ include("figure/_video.html.twig", {form: video }) }}
-{#                    {{ form_row(form.name, {'attr': {'placeholder': 'Lien'}}) }}#}
-                </div>
-            {% endfor %}
+             data-index="{{ form.videos|length > 0 ? form.videos|last.vars.name + 1 : 0 }}">
+
+        {# Si on se trouve sur la page de modification d'une figure #}
+{#            {% if figure.id is not none %}#}
+                {% for video in form.videos %}
+                   {# On cache les champs contenant les urls des vidéos pour laisser place aux miniatures des vidéos #}
+                    <div class="col-4">
+                        {{ include("figure/_video.html.twig", {form: video }) }}
+                    </div>
+                {% endfor %}
+                {# Affiche les miniatures de vidéo lors de la modification #}
+
+{#            {% endif %}#}
         </div>
 
-    {# Afficher les vidéo dans la partie lors d'une mofication #}
-{#        {% if figure.id is not none %}#}
+{#        <div class="wrapper d-flex flex-wrap">#}
 {#            {% for video in figure.videos %}#}
-{#                <div>#}
-{#                    <iframe width="150" height="120" src="https://www.youtube.com/embed/{{video.name}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>#}
-{#                    <a href="{{ path('figure_delete_video', {id: video.id})}}" data-delete data-token="{{ csrf_token('delete' ~ video.id )}}">Supprimer</a>#}
+{#                <div class="edit_figure_image">#}
+{#                    <iframe width="150" height="120" src="{{video.name}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>#}
+{#                    <a class="btn btn-danger" href="{{ path('figure_delete_video', {id: video.id}) }}" data-delete#}
+{#                       data-token="{{ csrf_token('delete' ~ video.id ) }}">Supprimer</a>#}
 {#                </div>#}
 {#            {% endfor %}#}
-{#        {% endif %}#}
+{#        </div>#}
+
 
         <br/>
         <button type="submit" class="btn btn-success">Ajouter ce trick</button>
         {% if figure.id is not none %}
-            <a class="btn btn-danger" href="{{ path('delete_figure',{'id': figure.id}) }}" onclick="return confirm('Voulez vous vraiment supprimer ce trick ?')">Supprimer ce trick ?</a>
+            <a class="btn btn-danger" href="{{ path('delete_figure',{'id': figure.id}) }}"
+               onclick="return confirm('Voulez vous vraiment supprimer ce trick ?')">Supprimer ce trick ?</a>
         {% endif %}
         {{ form_end(form, {render_rest: false}) }}
     </div>
@@ -74,6 +86,6 @@
 {% endblock %}
 
 {% block javascripts %}
-    <script type="text/javascript" src="{{asset('assets/js/images.js')}}"></script>
-    <script type="text/javascript" src="{{asset('assets/js/add_video.js')}}"></script>
+    <script type="text/javascript" src="{{ asset('assets/js/images.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/js/add_video.js') }}"></script>
 {% endblock %}

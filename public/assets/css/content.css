@@ -1,0 +1,6 @@
+@media (max-width: 376px) {
+    .wrapper img,iframe {
+        width: 350px!important;
+        height: 200px!important;
+    }
+}

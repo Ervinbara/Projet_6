@@ -229,16 +229,14 @@ class FigureController extends AbstractController
 
     /**
      * Suppression d'une vidéo liée à un trick
-     * @Route("/supprime/video/{id}", name="figure_delete_video", methods={"DELETE"})
+     * @Route("/supprime_video/{id}", name="figure_delete_video", methods={"DELETE"})
      */
     public function deleteVideo(Videos $video, Request $request)
     {
         $data = json_decode($request->getContent(), true);
-
         // On vérifie si le token est valide
         if ($this->isCsrfTokenValid('delete' . $video->getId(), $data['_token'])) {
-            // On récupère le nom de l'image
-            $nom = $video->getName();
+//            dd($video);
             // On supprime l'entrée de la base
             $em = $this->getDoctrine()->getManager();
             $em->remove($video);
