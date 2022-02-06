@@ -2,22 +2,20 @@
 
 namespace App\Controller;
 
-use App\Repository\CommentRepository;
-use DateTime;
+use App\Entity\Comment;
 use App\Entity\Figure;
 use App\Entity\Images;
 use App\Entity\Videos;
-use App\Entity\Comment;
-use App\Form\FigureType;
 use App\Form\CommentType;
+use App\Form\FigureType;
+use App\Repository\CommentRepository;
 use App\Repository\FigureRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 class FigureController extends AbstractController
 {
@@ -54,12 +52,12 @@ class FigureController extends AbstractController
     /**
      * @Route(path="/forum/{coms}", name="forum", requirements={"coms"="\d+"})
      */
-    public function forum(Request $request, EntityManagerInterface $manager, CommentRepository $repo,int $coms = 0)
+    public function forum(Request $request, EntityManagerInterface $manager, CommentRepository $repo, int $coms = 0)
     {
         $comment = new Comment();
 
         // On récupère tout les commentaire qui ne sont pas attribué à une figure càd ou figure_id == NULL
-        $commentForum = $repo->findby(['figure' => NULL], ['id' => 'DESC'],4, $coms);
+        $commentForum = $repo->findby(['figure' => NULL], ['id' => 'DESC'], 4, $coms);
         $coms = $coms + 4;
 
         // Récupération du nombre total de tricks pour établir une limite lors du clique sur le bouton voir plus
@@ -136,8 +134,7 @@ class FigureController extends AbstractController
 
             if ($newFigure) {
                 $manager->persist($figure);
-            }
-            else{
+            } else {
                 $figure->setModifyAt(new \DateTimeImmutable());
             }
             $manager->flush();
@@ -189,7 +186,7 @@ class FigureController extends AbstractController
     /**
      * Suppression d'une figure
      * @Route("/delete/figure/{id}/delete", name="delete_figure")
-    */
+     */
     public function deleteFigure(Figure $figure)
     {
         $em = $this->getDoctrine()->getManager();
@@ -207,9 +204,9 @@ class FigureController extends AbstractController
     public function deleteImage(Images $image, Request $request)
     {
         $data = json_decode($request->getContent(), true);
-
+        $image_id = $image->getId();
         // On vérifie si le token est valide
-        if ($this->isCsrfTokenValid('delete' . $image->getId(), $data['_token'])) {
+        if ($this->isCsrfTokenValid('delete' . $image_id, $data['_token'])) {
             // On récupère le nom de l'image
             $nom = $image->getName();
             // On supprime le fichier
@@ -218,27 +215,6 @@ class FigureController extends AbstractController
             // On supprime l'entrée de la base
             $em = $this->getDoctrine()->getManager();
             $em->remove($image);
-            $em->flush();
-
-            // On répond en json
-            return new JsonResponse(['success' => 1]);
-        } else {
-            return new JsonResponse(['error' => 'Token Invalide'], 400);
-        }
-    }
-
-    /**
-     * Suppression d'une vidéo liée à un trick
-     * @Route("/supprime_video/{id}", name="figure_delete_video", methods={"DELETE"})
-     */
-    public function deleteVideo(Videos $video, Request $request)
-    {
-        $data = json_decode($request->getContent(), true);
-        // On vérifie si le token est valide
-        if ($this->isCsrfTokenValid('delete' . $video->getId(), $data['_token'])) {
-            // On supprime l'entrée de la base
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($video);
             $em->flush();
 
             // On répond en json

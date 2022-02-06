@@ -2,15 +2,15 @@
 
 namespace App\Form;
 
-use App\Entity\Figure;
 use App\Entity\Category;
-use Symfony\Component\Form\AbstractType;
+use App\Entity\Figure;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class FigureType extends AbstractType
 {
@@ -23,7 +23,7 @@ class FigureType extends AbstractType
                 'choice_label' => 'title'
             ])
             ->add('description', CKEditorType::class)
-            ->add('images', FileType::class,[
+            ->add('images', FileType::class, [
                 'label' => false,
                 'multiple' => true,
                 'mapped' => false,

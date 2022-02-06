@@ -2,60 +2,53 @@
 
 namespace App\Entity;
 
+use App\Repository\UserRepository;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Serializable;
-use DateTimeImmutable;
-use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
-use App\Repository\UserRepository;
-use Symfony\Component\HttpFoundation\File\File;
-use Symfony\Component\Serializer\Annotation\Ignore;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Security\Core\User\UserInterface;
+use Serializable;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Ignore;
+use Symfony\Component\Validator\Constraints as Assert;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @Vich\Uploadable
  * @UniqueEntity(fields={"email"}, message="Vous avez déjà un compte !")
  */
-class User implements UserInterface,PasswordAuthenticatedUserInterface, Serializable
+class User implements UserInterface, PasswordAuthenticatedUserInterface, Serializable
 {
+    public $confirm_password;
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
     private $id;
-
     /**
      * @ORM\Column(type="string", length=255)
      */
     private $username;
-
     /**
      * @ORM\Column(type="string", length=255)
      */
     private $email;
-
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\Length(min="4", minMessage="Le mot de passe doit faire au moins 4 caractère")
      */
     private $password;
-
-    public $confirm_password;
-
     /**
      * NOTE: This is not a mapped field of entity metadata, just a simple property.
-     * 
+     *
      * @Vich\UploadableField(mapping="pictures", fileNameProperty="imageName")
      * @Ignore
-     * 
+     *
      * @var File|null
      */
     private $imageFile;
@@ -142,18 +135,22 @@ class User implements UserInterface,PasswordAuthenticatedUserInterface, Serializ
 
     public function getUserIdentifier(): string
     {
-        return (string) $this->email;
+        return (string)$this->email;
     }
 
-    public function eraseCredentials() {}
+    public function eraseCredentials()
+    {
+    }
 
-    public function getSalt() {}
+    public function getSalt()
+    {
+    }
 
-     /**
-      * @ORM\Column(type="json")
-      */
+    /**
+     * @ORM\Column(type="json")
+     */
     // private $roles = [];
-  
+
     /**
      * A visual identifier that represents this user.
      *
@@ -169,6 +166,11 @@ class User implements UserInterface,PasswordAuthenticatedUserInterface, Serializ
         return ['ROLE_USER'];
     }
 
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
     public function setImageFile(?File $imageFile = null): void
     {
         $this->imageFile = $imageFile;
@@ -180,9 +182,9 @@ class User implements UserInterface,PasswordAuthenticatedUserInterface, Serializ
         }
     }
 
-    public function getImageFile(): ?File
+    public function getImageName(): ?string
     {
-        return $this->imageFile;
+        return $this->imageName;
     }
 
     public function setImageName(?string $imageName): void
@@ -190,110 +192,105 @@ class User implements UserInterface,PasswordAuthenticatedUserInterface, Serializ
         $this->imageName = $imageName;
     }
 
-    public function getImageName(): ?string
+    /** @see \Serializable::serialize() */
+    public function serialize()
     {
-        return $this->imageName;
-    }
-
-     /** @see \Serializable::serialize() */
-     public function serialize()
-     {
-         return serialize(array(
-             $this->id,
-             $this->username,
-             $this->password,
-             $this->email,
-             $this->updatedAt,
-             $this->imageName
-         ));
-     }
- 
-     /** @see \Serializable::unserialize() */
-     public function unserialize($serialized)
-     {
-         list (
+        return serialize(array(
             $this->id,
             $this->username,
             $this->password,
             $this->email,
             $this->updatedAt,
             $this->imageName
-         ) = unserialize($serialized);
-     }
+        ));
+    }
 
-     public function getTokenActivation(): ?string
-     {
-         return $this->token_activation;
-     }
+    /** @see \Serializable::unserialize() */
+    public function unserialize($serialized)
+    {
+        list (
+            $this->id,
+            $this->username,
+            $this->password,
+            $this->email,
+            $this->updatedAt,
+            $this->imageName
+            ) = unserialize($serialized);
+    }
 
-     public function setTokenActivation(?string $token_activation): self
-     {
-         $this->token_activation = $token_activation;
-         $this->token_expiration = (new DateTime())->modify('+1 day');
-         return $this;
-     }
+    public function getTokenActivation(): ?string
+    {
+        return $this->token_activation;
+    }
 
-     public function resetTokenActivation(): self
-     {
-         $this->token_activation = null;
-         $this->token_expiration = null;
-         return $this;
-     }
+    public function setTokenActivation(?string $token_activation): self
+    {
+        $this->token_activation = $token_activation;
+        $this->token_expiration = (new DateTime())->modify('+1 day');
+        return $this;
+    }
 
-     public function getActive(): ?bool
-     {
-         return $this->active;
-     }
+    public function resetTokenActivation(): self
+    {
+        $this->token_activation = null;
+        $this->token_expiration = null;
+        return $this;
+    }
 
-     public function setActive(bool $active): self
-     {
-         $this->active = $active;
+    public function getActive(): ?bool
+    {
+        return $this->active;
+    }
 
-         return $this;
-     }
+    public function setActive(bool $active): self
+    {
+        $this->active = $active;
 
-     public function getTokenExpiration(): ?\DateTimeInterface
-     {
-         return $this->token_expiration;
-     }
+        return $this;
+    }
 
-     public function setTokenExpiration(?\DateTimeInterface $token_expiration): self
-     {
-         $this->token_expiration = $token_expiration;
+    public function getTokenExpiration(): ?\DateTimeInterface
+    {
+        return $this->token_expiration;
+    }
 
-         return $this;
-     }
+    public function setTokenExpiration(?\DateTimeInterface $token_expiration): self
+    {
+        $this->token_expiration = $token_expiration;
 
-     /**
-      * @return Collection|Comment[]
-      */
-     public function getComments(): Collection
-     {
-         return $this->comments;
-     }
+        return $this;
+    }
 
-     public function addComment(Comment $comment): self
-     {
-         if (!$this->comments->contains($comment)) {
-             $this->comments[] = $comment;
-             $comment->setUser($this);
-         }
+    /**
+     * @return Collection|Comment[]
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
 
-         return $this;
-     }
+    public function addComment(Comment $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setUser($this);
+        }
 
-     public function removeComment(Comment $comment): self
-     {
-         if ($this->comments->removeElement($comment)) {
-             // set the owning side to null (unless already changed)
-             if ($comment->getUser() === $this) {
-                 $comment->setUser(null);
-             }
-         }
+        return $this;
+    }
 
-         return $this;
-     }
+    public function removeComment(Comment $comment): self
+    {
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getUser() === $this) {
+                $comment->setUser(null);
+            }
+        }
 
-     
+        return $this;
+    }
+
+
 }
     

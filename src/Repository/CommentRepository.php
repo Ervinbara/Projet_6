@@ -19,13 +19,13 @@ class CommentRepository extends ServiceEntityRepository
         parent::__construct($registry, Comment::class);
     }
 
-     /**
-      * @return Comment[] Returns an array of Comment objects
+    /**
+     * @return Comment[] Returns an array of Comment objects
      */
     public function commentForum(): array
     {
-       $query = $this->getEntityManager()->createQuery("SELECT c FROM App\Entity\Comment c WHERE c.figure = 'NULL' ");
-       return $query->getResult();
+        $query = $this->getEntityManager()->createQuery("SELECT c FROM App\Entity\Comment c WHERE c.figure = 'NULL' ");
+        return $query->getResult();
     }
 
     /*
