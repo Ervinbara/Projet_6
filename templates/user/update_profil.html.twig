@@ -5,19 +5,19 @@
 {% endblock %}
 {% block body %}
 
-<div class="example-wrapper">
-    <h1>Modifier mes informations</h1>
-    
-    {{ form_start(form) }}
-    {{ form_widget(form.username) }}
-    {{ form_widget(form.email) }}
-    <div class="profil_picture">
-        {{ form_widget(form.imageFile) }}
+    <div class="example-wrapper">
+        <h1>Modifier mes informations</h1>
+
+        {{ form_start(form) }}
+        {{ form_widget(form.username) }}
+        {{ form_widget(form.email) }}
+        <div class="profil_picture">
+            {{ form_widget(form.imageFile) }}
+        </div>
+        {{ form_end(form) }}
+        {# Mettre la photo de profil, avec un curseur pour modifier ?  #}
+
     </div>
-    {{ form_end(form) }}
-    {# Mettre la photo de profil, avec un curseur pour modifier ?  #}
-    
-</div>
 {% endblock %}
 {% block footer %}
 {% endblock %}

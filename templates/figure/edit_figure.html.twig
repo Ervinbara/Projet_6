@@ -11,10 +11,10 @@
         <div class="figure_status">
             {% if figure.id is not none %}
                 <h1> Modification d'une figure </h1>
-                <br />
+                <br/>
             {% else %}
                 <h1> Ajout d'une figure </h1>
-                <br />
+                <br/>
             {% endif %}
         </div>
 
@@ -24,12 +24,12 @@
         {{ form_widget(form._token) }}
         {{ form_widget(form.name, {'attr': {'placeholder': 'Nom de la figure'}}) }}
         {{ form_errors(form['name']) }}
-        <br />
+        <br/>
         <h6>Description de la figure :</h6>
         {{ form_widget(form.description, {'attr': {'placeholder': 'Description de la figure'}}) }}
         <br/>
         <h6>Catégorie de la figure : {{ form_widget(form.category) }}</h6>
-        <br />
+        <br/>
         {# Ajout de d'images #}
         {{ form_widget(form.images) }}
         <div class="wrapper d-flex flex-wrap">
@@ -50,28 +50,28 @@
              data-prototype="{{ include("figure/_video.html.twig", {form: form.videos.vars.prototype })|e("html_attr") }}"
              data-index="{{ form.videos|length > 0 ? form.videos|last.vars.name + 1 : 0 }}">
 
-        {# Si on se trouve sur la page de modification d'une figure #}
-{#            {% if figure.id is not none %}#}
-                {% for video in form.videos %}
-                   {# On cache les champs contenant les urls des vidéos pour laisser place aux miniatures des vidéos #}
-                    <div class="col-4">
-                        {{ include("figure/_video.html.twig", {form: video }) }}
-                    </div>
-                {% endfor %}
-                {# Affiche les miniatures de vidéo lors de la modification #}
+            {# Si on se trouve sur la page de modification d'une figure #}
+            {#            {% if figure.id is not none %} #}
+            {% for video in form.videos %}
+                {# On cache les champs contenant les urls des vidéos pour laisser place aux miniatures des vidéos #}
+                <div class="col-4">
+                    {{ include("figure/_video.html.twig", {form: video }) }}
+                </div>
+            {% endfor %}
+            {# Affiche les miniatures de vidéo lors de la modification #}
 
-{#            {% endif %}#}
+            {#            {% endif %} #}
         </div>
 
-{#        <div class="wrapper d-flex flex-wrap">#}
-{#            {% for video in figure.videos %}#}
-{#                <div class="edit_figure_image">#}
-{#                    <iframe width="150" height="120" src="{{video.name}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>#}
-{#                    <a class="btn btn-danger" href="{{ path('figure_delete_video', {id: video.id}) }}" data-delete#}
-{#                       data-token="{{ csrf_token('delete' ~ video.id ) }}">Supprimer</a>#}
-{#                </div>#}
-{#            {% endfor %}#}
-{#        </div>#}
+        {#        <div class="wrapper d-flex flex-wrap"> #}
+        {#            {% for video in figure.videos %} #}
+        {#                <div class="edit_figure_image"> #}
+        {#                    <iframe width="150" height="120" src="{{video.name}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> #}
+        {#                    <a class="btn btn-danger" href="{{ path('figure_delete_video', {id: video.id}) }}" data-delete #}
+        {#                       data-token="{{ csrf_token('delete' ~ video.id ) }}">Supprimer</a> #}
+        {#                </div> #}
+        {#            {% endfor %} #}
+        {#        </div> #}
 
 
         <br/>

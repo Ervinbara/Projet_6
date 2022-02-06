@@ -236,7 +236,6 @@ class FigureController extends AbstractController
         $data = json_decode($request->getContent(), true);
         // On vérifie si le token est valide
         if ($this->isCsrfTokenValid('delete' . $video->getId(), $data['_token'])) {
-//            dd($video);
             // On supprime l'entrée de la base
             $em = $this->getDoctrine()->getManager();
             $em->remove($video);
