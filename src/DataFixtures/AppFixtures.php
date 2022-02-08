@@ -6,6 +6,7 @@ use App\Entity\Category;
 use App\Entity\Figure;
 use App\Entity\Images;
 use App\Entity\User;
+use App\Entity\Videos;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -30,13 +31,15 @@ class AppFixtures extends Fixture
         $categoryFf->setTitle("Frontflip");
         $manager->persist($categoryFf);
 
+        // Images et vidéo figure 1
+        $imagesStraight = ["straight1.jpg", "straight2.jpg", "straight3.jpg"];
 
-        $imageOllie = new Images();
-        $imageOllie->setName("ollie.jpg");
-        $imageOllie->setName("banner.jpg");
-
-        // Crée une collection d'images, pareil pour les vidéos
-
+        // Images figure 2
+        $imagesOllie = ["ollie1.jpg", "ollie2.jpg", "ollie3.jpg"];
+        $videosOllie = ['<div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;"> <iframe style="width:100%;height:100%;position:absolute;left:0px;top:0px;overflow:hidden" frameborder="0" type="text/html" src="https://www.dailymotion.com/embed/video/xqukq2" width="100%" height="100%" allowfullscreen > </iframe> </div>',
+            '<iframe width="560" height="315" src="https://www.youtube.com/embed/QMrelVooJR4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>',
+            '<iframe width="560" height="315" src="https://www.youtube.com/embed/aAefkzI-zS0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'
+        ];
         // Création des figures //
 
         // Figure 1
@@ -51,7 +54,16 @@ class AppFixtures extends Fixture
         $figure->setName('Le ollie');
         $figure->setDescription('Un ollie est une manière spécifique de « sauter », de décoller du sol verticalement en cours de ride. En général, nous recommandons d’apprendre le ollie en premier, car il s’agit d’une étape cruciale pour l’apprentissage d’autres figures de snowboard. Une fois que vous maîtrisez le ollie, vous pouvez l’utiliser pour les figures sur plat, sur rail et les sauts.');
         $figure->setCategory($categoryBf);
-        $figure->addImage($imageOllie);
+        foreach ($imagesOllie as $image) {
+            $img = new Images();
+            $img->setName($image);
+            $figure->addImage($img);
+        }
+        foreach ($videosOllie as $video) {
+            $vdo = new Videos();
+            $vdo->setHtml($video);
+            $figure->addVideo($vdo);
+        }
         $manager->persist($figure);
 
         // Figure 3
