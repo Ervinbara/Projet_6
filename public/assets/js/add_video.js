@@ -11,7 +11,7 @@ const newItem = (e) => {
           collectionHolder.dataset.index
       );
 
-  item.querySelector(".btn-remove").addEventListener("click", () => item.remove());
+  item.querySelector(".btn-remove").addEventListener("click", (e) => deleteVideo(e));
 
   collectionHolder.appendChild(item);
 
@@ -20,8 +20,16 @@ const newItem = (e) => {
 
 document
     .querySelectorAll('.btn-remove')
-    .forEach(btn => btn.addEventListener("click", (e) => e.currentTarget.closest(".col-4").remove()));
+    .forEach(btn => btn.addEventListener("click", (e) =>{
+        deleteVideo(e);
+    } ));
 
 document
     .querySelectorAll('.btn-new')
     .forEach(btn => btn.addEventListener("click", newItem));
+
+function deleteVideo(e){
+    if(confirm("Êtes vous sur de vouloirs supprimer cet élément ?")){
+        e.currentTarget.closest(".col-4").remove();
+    }
+}
