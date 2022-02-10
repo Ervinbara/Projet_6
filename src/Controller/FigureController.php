@@ -26,10 +26,8 @@ class FigureController extends AbstractController
     public function index(FigureRepository $repo, Request $request, int $page = 0)
     {
         // Par défaut afficher les 10 figures les plus récentes
-        $figures = $repo->findBy([], ['id' => 'ASC'], 8, $page);
+        $figures = $repo->findBy([], ['id' => 'ASC'], 9, $page);
         $page = $page + 8;
-
-        // Faire un compte du nbr de tricks, je l'envoi dans le twig puis dans le js et ce sera l'element de comparaison pour savoir si il me reste des elèments à afficher
 
         // Récupération du nombre total de tricks pour établir une limite lors du clique sur le bouton voir plus
         $total_tricks = count($repo->findAll());

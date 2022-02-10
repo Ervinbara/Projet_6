@@ -1,13 +1,24 @@
+/*@media (max-width: 320px) {*/
+/*    .wrapper img, .video_miniature iframe {*/
+/*        width: 292px!important;*/
+/*        height: 200px!important;*/
+/*    }*/
+/*}*/
+
 @media (max-width: 376px) {
-    .wrapper img,iframe {
-        width: 350px!important;
+    .wrapper img, .video_miniature iframe,.video_miniature div {
+        max-width: 350px!important;
+        min-width: 350px!important;
         height: 200px!important;
     }
 }
 
-.video_miniature iframe,.video_miniature div {
-    max-width: 175px!important;
-    max-height:130px!important;
-    width: 175px!important;
-    height:130px!important;
+@media (min-width: 376px) {
+    .wrapper img,.video_miniature iframe,.video_miniature div {
+        max-width: 175px!important;
+        max-height:130px!important;
+        width: 175px!important;
+        height:130px!important;
+    }
 }
+
