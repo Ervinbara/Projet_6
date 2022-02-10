@@ -1,0 +1,62 @@
+Parcours Développeur d'application - PHP / Symfony
+Projet 6 OpenClassrooms - Développez de A à Z le site communautaire SnowTricks
+
+SymfonyInsight : Platinum medal
+https://insight.symfony.com/projects/057d7b91-d5a5-4685-a222-12db7d6a34bc/analyses/22
+
+L'objectif de ce projet est de développer un site communautaire de partage de figures de snowboard.
+
+Actions possibles en fonctions des différents rôles : 
+
+Le visiteur (Non authentifié):
+
+- Inscription/Connexion
+- Accès à l'ensemble des figures
+- Lire les commentaires affiliés aux figures
+
+Utilisateur (authentifié):
+
+- Accès aux mêmes fonctionnalités que le visiteur
+- Ajout de commentaires
+- Ajout/modification/suppression d'une figures
+
+Compte existant par défaut :
+
+- Administrateur:
+    - Identifiant: admin@example.com
+    - Mot de passe: azerty
+
+Prérequis : 
+- PHP version 7.3 minimum
+- Un système de gestion de base de données (SGBD : MySQL version 5.0.3 minimum)
+- Il faut Composer et Git
+
+Installation : 
+
+Etape 1 : Cloner le Repositary sur machine avec la commande : git clone https://github.com/Ervinbara/Projet_6.git
+Se placer dans le répertoire du projet.
+
+Etape 2 : Installez les dépendances du projet avec : composer install
+
+Etape 3 : Remplir le fichier .env
+
+Etape 4 : Créer une base de données sur votre SGBD avec la commande : php bin/console doctrine:database:create
+        - Lancer la commande : php bin/console doctrine:migrations:migrate
+
+( Facultatif ) Fixtures :
+Pour créer un jeu de donnée :
+    php bin/console doctrine:fixtures:load
+
+Exécution en développement : 
+Faire un cd public, pour se mettre dans le dossier public
+php -S localhost:8000,  le projet sera disponible sur http://localhost:8000/
+
+Librairies utilisées : 
+
+- Bootstrap (Pour le visuel)
+- jQuery
+- Twig (Moteur de template)
+- Symfony's Mailer (Envoi de mail)
+
+Auteur
+Bara Ervin
