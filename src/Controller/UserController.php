@@ -4,10 +4,10 @@ namespace App\Controller;
 
 use App\Form\EditProfileType;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class UserController extends AbstractController
 {
@@ -45,7 +45,7 @@ class UserController extends AbstractController
         return $this->render('user/update_profil.html.twig', [
             'controller_name' => 'UserController',
             'user' => $user,
-            'form' =>$form->createView(),
+            'form' => $form->createView(),
         ]);
     }
 

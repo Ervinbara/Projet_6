@@ -20,7 +20,7 @@ class Images
     /**
      * @ORM\ManyToOne(targetEntity=Figure::class, inversedBy="images")
      */
-    private $figure_id;
+    private $figure;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -32,14 +32,14 @@ class Images
         return $this->id;
     }
 
-    public function getFigureId(): ?Figure
+    public function getFigure(): ?Figure
     {
-        return $this->figure_id;
+        return $this->figure;
     }
 
-    public function setFigureId(?Figure $figure_id): self
+    public function setFigure(?Figure $figure): self
     {
-        $this->figure_id = $figure_id;
+        $this->figure = $figure;
 
         return $this;
     }

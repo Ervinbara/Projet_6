@@ -20,39 +20,52 @@ class Videos
     /**
      * @ORM\ManyToOne(targetEntity=Figure::class, inversedBy="videos")
      */
-    private $figure_id;
+    private $figure;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
-    private $name;
+    private $html;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getFigureId(): ?Figure
+    /**
+     * @return mixed
+     */
+    public function getFigure()
     {
-        return $this->figure_id;
+        return $this->figure;
     }
 
-    public function setFigureId(?Figure $figure_id): self
+    /**
+     * @param mixed $figure
+     */
+    public function setFigure($figure): void
     {
-        $this->figure_id = $figure_id;
-
-        return $this;
+        $this->figure = $figure;
     }
 
-    public function getName(): ?string
+
+
+    /**
+     * @return mixed
+     */
+    public function getHtml()
     {
-        return $this->name;
+        return $this->html;
     }
 
-    public function setName(?string $name): self
+    /**
+     * @param mixed $html
+     */
+    public function setHtml($html): void
     {
-        $this->name = $name;
-
-        return $this;
+        $this->html = $html;
     }
+
+
+
 }

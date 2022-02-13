@@ -1,70 +1,197 @@
 {% extends 'base.html.twig' %}
 
 {% block stylesheets %}
-<link rel="stylesheet" type="text/css" href="../assets/css/navbar_other_page.css"/>
+    <link rel="stylesheet" type="text/css" href="../assets/css/navbar_other_page.css"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/content.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/loadmore_figures_comments.css') }}"/>
 {% endblock %}
 
+    {% block banner %}
+        <section class="banner_figure" id="banner-anchor">
+            {% if figure.images | length > 0 %}
+                <figure>
+                    <figcaption>Trick : {{ figure.name }}</figcaption>
+                    <img class="banner-img" src="{{ asset('/images/figures/uploads/'~figure.images[0].name) }}"
+                         alt="figure">
+                </figure>
+            {% else %}
+                <figure>
+                    <figcaption>Trick : {{ figure.name }}</figcaption>
+                    <img class="banner-img" src="{{ asset('/images/figures/uploads/default.jpg') }}" alt="figure">
+                </figure>
+            {% endif %}
+            {% if app.user %}
+                <a class="btn btn-primary update-btn" href="{{ path('edit_figure',{'id': figure.id}) }}"><i
+                            class="fas fa-pencil-alt"></i></a>
+                <a class="btn btn-danger delete-btn" href="{{ path('delete_figure',{'id': figure.id}) }}"
+                   onclick="return confirm('Voulez vous vraiment supprimer ce trick ?')"><i
+                            class="fas fa-trash-alt"></i></a>
+            {% endif %}
+        </section>
+    {% endblock %}
+
 {% block body %}
+    <div class="visual-content">
+        <h2>Images et vidéos </h2>
+        <div class="wrapper d-flex flex-wrap">
+            {% for image in figure.images %}
+                <div>
+                    <img src="{{ asset('/images/figures/uploads/'~image.name) }}" width="180" height="130" alt="figure">
+                </div>
+            {% endfor %}
 
-<div class="example-wrapper">
-    <h2>Trick : {{ figure.name }}</h2>
-    <h3>Catégorie : {{ figure.category.title }}</h3>
-    <h3>Description : {{ figure.description }}</h3>
-    <a class="nav-link" href="{{ path('edit_figure',{'id': figure.id}) }}">Modifier</a>
-    <div class="figure_img">
-        {% for image in figure.images %}
-            <div>
-                <img src="{{ asset('/images/figures/uploads/'~image.name) }}" alt="figure" width="150">
-            </div>
-        {% endfor %} 
+            {# margin-right : 5px pour espacer les element entre eux #}
+            {% for video in figure.videos %}
+                <div class="video_miniature">
+                    {{ video.html|raw }}
+                </div>
+            {% endfor %}
+        </div>
     </div>
-</div>
 
-<section id="commentaires">
-        <h2>{{ figure.comments | length }}Commentaire </h2>
-        {% for comment in figure.comments %} <!--Pour chaque commentaire dans les commentaire de l'article-->
-            <div class="comment container">
-                <div class="info container">
-                    <div class="username">
-                        {{comment.author}} 
+
+    {#    <div class="visual-content wrapper"> #}
+
+    {# Multiple slider images #}
+    {#        <div class="container"> #}
+    {#            <div class="carousel slide multi-item-carousel" id="theCarousel"> #}
+    {#                    <div class="carousel-inner row w-100 mx-auto"> #}
+    {#                        <div class="carousel-item active col-md-3"> #}
+    {#                            <img src="{{ asset('/images/figures/uploads/'~figure.images[0].name) }}" width="200" height="130" alt="figure" class="img-fluid mx-auto d-block"> #}
+    {#                        </div> #}
+    {#                        {% for image in figure.images %} #}
+    {#                            <div class="carousel-item col-md-3"> #}
+    {#                                <img src="{{ asset('/images/figures/uploads/'~image.name) }}" width="200" height="130" alt="figure" class="img-fluid mx-auto d-block"> #}
+    {#                            </div> #}
+    {#                        {% endfor %} #}
+    {#                    </div> #}
+    {#                    <a class="carousel-control-prev" href="#theCarousel" role="button" data-slide="prev"> #}
+    {#                        <span class="carousel-control-prev-icon" aria-hidden="true"></span> #}
+    {#                        <span class="sr-only">Previous</span> #}
+    {#                    </a> #}
+    {#                    <a class="carousel-control-next" href="#theCarousel" role="button" data-slide="next"> #}
+    {#                        <span class="carousel-control-next-icon" aria-hidden="true"></span> #}
+    {#                        <span class="sr-only">Next</span> #}
+    {#                    </a> #}
+    {#            </div> #}
+    {#        </div> #}
+
+    {#        #}{# Multiple slider videos #}
+    {#        <div class="container"> #}
+    {#            <div class="carousel slide multi-item-carousel" id="theCarousel-video"> #}
+    {#                <div class="carousel-inner row w-100 mx-auto"> #}
+    {#                    <div class="carousel-item active col-md-3"> #}
+    {#                        <iframe width="200" height="130" src="https://www.youtube.com/embed/{{figure.videos[0].name}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> #}
+    {#                    </div> #}
+    {#                    {% for video in figure.videos %} #}
+    {#                        <div class="carousel-item col-md-3"> #}
+    {#                            <iframe width="200" height="130" src="https://www.youtube.com/embed/{{video.name}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> #}
+    {#                        </div> #}
+    {#                    {% endfor %} #}
+    {#                </div> #}
+    {#                <a class="carousel-control-prev" href="#theCarousel-video" role="button" data-slide="prev"> #}
+    {#                    <span class="carousel-control-prev-icon" aria-hidden="true"></span> #}
+    {#                    <span class="sr-only">Previous</span> #}
+    {#                </a> #}
+    {#                <a class="carousel-control-next" href="#theCarousel-video" role="button" data-slide="next"> #}
+    {#                    <span class="carousel-control-next-icon" aria-hidden="true"></span> #}
+    {#                    <span class="sr-only">Next</span> #}
+    {#                </a> #}
+    {#            </div> #}
+    {#        </div> #}
+
+    <h2>Description : </h2>
+    <p>
+        {{ figure.description|raw }}
+    </p>
+    {#    <div class="info"> #}
+    {#        {% if figure.category.title is defined %} #}
+    {#            <h3>Catégorie : {{ figure.category.title }}</h3> #}
+    {#        {% else %} #}
+    {#            <h3> Catégorie : Non repertorié</h3> #}
+    {#        {% endif %} #}
+    {#        <h3>Crée le : {{ figure.createdAt|date('d/m/Y') }} à {{ figure.createdAt|date('H:i:s') }}</h3> #}
+    {#        {% if figure.modifyAt is not empty %} #}
+    {#            <h3>Modifier le : {{ figure.modifyAt|date('d/m/Y') }} à {{ figure.modifyAt|date('H:i:s') }}</h3> #}
+    {#        {% endif %} #}
+    {#    </div> #}
+
+    <ul class="tags">
+        {% if figure.category.title is defined %}
+            <li><p class="tag">{{ figure.category.title }}</p></li>
+        {% else %}
+            <li><p> Catégorie : Non repertorié</p></li>
+        {% endif %}
+        <li><p class="tag">Crée le : {{ figure.createdAt|date('d/m/Y') }} à {{ figure.createdAt|date('H:i:s') }}</p>
+        </li>
+        {% if figure.modifyAt is not empty %}
+            <li><p class="tag">Modifier le : {{ figure.modifyAt|date('d/m/Y') }}
+                    à {{ figure.modifyAt|date('H:i:s') }}</p></li>
+        {% endif %}
+    </ul>
+    <br>
+
+    <section id="commentaires">
+        <div class="mt-5">
+            <div class="justify-content-center">
+                <div>
+                    <div class="headings d-flex justify-content-between align-items-center mb-3">
+                        <h3>Commentaires : {{ figure.comments | length }}</h3>
                     </div>
-                    <div class="post_date">
-                        {{comment.createdAt | date('d/m/Y')}}
+
+                    <div id="comments">
+                        {% for comment in figure.comments|reverse %}
+                            <div class="card p-3 mt-2 content">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="user d-flex flex-row align-items-center"><img
+                                                src="{{ asset('images/pictures/' ~ comment.user.imageName) }}"
+                                                width="55" height="55" class="user-img rounded-circle mr-2">
+                                        <span>
+                                        <small class="font-weight-bold">{{ comment.user.username }} : </small>
+                                        <small class="font-weight">{{ comment.content | raw }}</small>
+                                    </span>
+                                    </div>
+                                    <small> {{ comment.createdAt | date('d/m/Y') }}
+                                        à {{ comment.createdAt|date('H:i:s') }}</small>
+                                </div>
+                                <div class="action d-flex justify-content-between mt-2 align-items-center">
+                                    <div class="icons align-items-center"><i
+                                                class="fa fa-check-circle-o check-icon text-primary"></i></div>
+                                </div>
+                            </div>
+                        {% endfor %}
                     </div>
+
+                    {% if figure.comments | length > 10 %}
+                        <a id="loadMore" href="#">Voir plus</a>
+                    {% endif %}
                 </div>
-                <div class="text container">
-                    <div class="text">
-                        {{comment.content | raw}}
-                        {# {% if app.user %}
-                            {% if comment.report == 0 %}
-                                <a href="{{ path('report',{'id': comment.id}) }}" class="report"><acronym title="Signalé ce commentaire ?"><i class="far fa-flag"></i></acronym>
-                                </a> 
-                            {% else %}
-                            <div class="report"><acronym title="Commentaire signalé, l'admin s'en occupe"><i class="fas fa-flag"></i></acronym></div>
-                            {% endif %}
-                        {% endif %} #}
-                    </div> 
-                </div>
-                
             </div>
-            {# <div class="js-report" data-is-authenticated="{{ comment.id }}"></div> #}
-        {% endfor %}
-        
-        <h2>Laisse un commentaire</h2>
+        </div>
+
+        <br/>
+        <h3>Laisse un commentaire</h3>
         {% if app.user %}
-        
-        {{form_start(commentForm)}}
 
-        {{form_row(commentForm.content,{'attr': {'placeholder':"Contenu"} }) }}
+            {{ form_start(commentForm) }}
 
-        <button type="submit" class="btn send">Envoyer</button>
-        {{form_end(commentForm)}}
+            {{ form_row(commentForm.content,{'attr': {'placeholder':"Contenu"} }) }}
+
+            <button type="submit" class="btn btn-primary send">Envoyer</button>
+
+            {{ form_end(commentForm) }}
+
         {% else %}
             <h3>Connexion requise</h3>
-            <p><a href="{{path('security_login')}}" class="btn btn-primary">Connexion</a>
-            ou <a href="{{path('security_registration')}}" class="btn btn-primary">Pas de compte ?</a>
+            <p><a href="{{ path('security_login') }}" class="btn btn-primary">Connexion</a>
+                ou <a href="{{ path('security_registration') }}" class="btn btn-primary">Pas de compte ?</a>
             </p>
-            
         {% endif %}
+
     </section>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('assets/js/slideshow.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/js/loadmore_figures_comments.js') }}"></script>
 {% endblock %}

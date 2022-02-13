@@ -6,9 +6,11 @@ use App\Repository\FigureRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=FigureRepository::class)
+ * @UniqueEntity(fields={"name"}, message="Ce trick existe déjà")
  */
 class Figure
 {
@@ -25,36 +27,48 @@ class Figure
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="text")
      */
     private $description;
 
     /**
-     * @ORM\OneToMany(targetEntity=Images::class, mappedBy="figure_id", orphanRemoval=true, cascade={"persist"})
+     * @ORM\OneToMany(targetEntity=Images::class, mappedBy="figure", orphanRemoval=true, cascade={"persist", "remove"})
      */
     private $images;
 
     /**
-     * @ORM\OneToMany(targetEntity=Videos::class, mappedBy="figure_id")
+     * @ORM\OneToMany(targetEntity=Videos::class, mappedBy="figure", cascade={"persist","remove"})
      */
     private $videos;
 
     /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="figures")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $category;
 
     /**
-     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="figure", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="figure", orphanRemoval=true, cascade={"remove"})
      */
     private $comments;
+
+    /**
+     * @ORM\Column(type="datetime_immutable")
+     */
+    private $createdAt;
+
+    /**
+     * @ORM\Column(type="datetime_immutable")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $modifyAt;
 
     public function __construct()
     {
         $this->images = new ArrayCollection();
         $this->videos = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->createdAt = new \DateTimeImmutable();
     }
 
     public function getId(): ?int
@@ -98,7 +112,7 @@ class Figure
     {
         if (!$this->images->contains($image)) {
             $this->images[] = $image;
-            $image->setFigureId($this);
+            $image->setFigure($this);
         }
 
         return $this;
@@ -108,8 +122,8 @@ class Figure
     {
         if ($this->images->removeElement($image)) {
             // set the owning side to null (unless already changed)
-            if ($image->getFigureId() === $this) {
-                $image->setFigureId(null);
+            if ($image->getFigure() === $this) {
+                $image->setFigure(null);
             }
         }
 
@@ -128,7 +142,7 @@ class Figure
     {
         if (!$this->videos->contains($video)) {
             $this->videos[] = $video;
-            $video->setFigureId($this);
+            $video->setFigure($this);
         }
 
         return $this;
@@ -138,8 +152,8 @@ class Figure
     {
         if ($this->videos->removeElement($video)) {
             // set the owning side to null (unless already changed)
-            if ($video->getFigureId() === $this) {
-                $video->setFigureId(null);
+            if ($video->getFigure() === $this) {
+                $video->setFigure(null);
             }
         }
 
@@ -184,6 +198,30 @@ class Figure
                 $comment->setFigure(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getModifyAt(): ?\DateTimeImmutable
+    {
+        return $this->modifyAt;
+    }
+
+    public function setModifyAt(\DateTimeImmutable $modifyAt): self
+    {
+        $this->modifyAt = $modifyAt;
 
         return $this;
     }

@@ -5,13 +5,13 @@
 {% endblock %}
 
 {% block body %}
-<div class="container profil">
-    <h1>Bienvenue sur votre profil {{user.username}}</h1>
-    <div class="profil_picture">
-        <img src="{{asset('images/pictures/' ~ user.imageName)}}"></img>
+    <div class="container profil">
+        <h1>Bienvenue sur votre profil {{ user.username }}</h1>
+        <div class="profil_picture">
+            <img src="{{ asset('images/pictures/' ~ user.imageName) }}"></img>
+        </div>
+
+        <a class="nav-link" href="{{ path('update_user') }}">Modifier mon profil</a>
+
     </div>
-
-    <a class="nav-link" href="{{ path('update_user') }}">Modifier mon profil</a>
-
-</div>
 {% endblock %}

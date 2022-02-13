@@ -52,7 +52,7 @@ header{
     border: 2px solid black;
     border-radius: 0;
     outline: none;
-    background: cadetblue;
+    background: rgb(138, 138, 138);
     border-radius: 15%;
 }
 
@@ -73,8 +73,32 @@ header{
     color: white;
 }
 
-@media (max-width: 970px){
-   #navbarSupportedContent{
-       background: rgb(0, 0, 0);
-   }
-  }
+
+/*Banniere figure*/
+.banner_figure{
+    position: relative;
+    min-height: 100vh;
+    background-size: cover;
+    /* background-position: center; */
+    /*padding: 250px 0 200px;*/
+
+}
+.banner_figure img{
+    width: 100%;
+    height: 85vh;
+    opacity: 1;
+    object-fit: cover;
+
+}
+
+figure {
+    text-align: center;
+}
+
+figcaption{
+    position: relative;
+    top: 9.5em;
+    font-size: 2em;
+    color: white;
+    background-color: black;
+}

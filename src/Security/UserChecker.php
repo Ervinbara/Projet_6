@@ -3,18 +3,18 @@
 namespace App\Security;
 
 use App\Entity\User as AppUser;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\Security\Core\User\UserCheckerInterface;
-use Symfony\Component\Security\Core\Exception\AccountExpiredException;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAccountStatusException;
+use Symfony\Component\Security\Core\User\UserCheckerInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class UserChecker implements UserCheckerInterface
 {
     private $session;
 
-    public function __construct(SessionInterface $session){
-         $this->session = $session;
+    public function __construct(SessionInterface $session)
+    {
+        $this->session = $session;
     }
 
     public function checkPreAuth(UserInterface $user): void

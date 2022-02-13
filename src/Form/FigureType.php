@@ -2,15 +2,15 @@
 
 namespace App\Form;
 
-use App\Entity\Figure;
 use App\Entity\Category;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
+use App\Entity\Figure;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\UrlType;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class FigureType extends AbstractType
 {
@@ -22,22 +22,23 @@ class FigureType extends AbstractType
                 'class' => Category::class,
                 'choice_label' => 'title'
             ])
-            ->add('description')
-            ->add('images', FileType::class,[
+            ->add('description', CKEditorType::class)
+            ->add('images', FileType::class, [
                 'label' => false,
                 'multiple' => true,
                 'mapped' => false,
                 'required' => false
             ])
-            // ->add('videos', UrlType::class, [
-            //     'attr' => [
-            //         'placeholder' => 'lien vidéo à ajouter...'
-            //     ],
-            //     'allow_extra_fields' => true,
-            //     'required' => false,
-            //     'mapped' => false,
-            // ])
-        ;
+            ->add('videos', CollectionType::class, [
+                'entry_type' => VideosType::class,
+                'entry_options' => [
+                    'attr' => ['placeholder' => 'Ajouter un lien'],
+                ],
+                "by_reference" => false,
+                "allow_add" => true,
+                "allow_delete" => true,
+                "prototype" => true,
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
