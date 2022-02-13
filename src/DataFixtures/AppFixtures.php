@@ -3,10 +3,12 @@
 namespace App\DataFixtures;
 
 use App\Entity\Category;
+use App\Entity\Comment;
 use App\Entity\Figure;
 use App\Entity\Images;
 use App\Entity\User;
 use App\Entity\Videos;
+use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -70,7 +72,7 @@ class AppFixtures extends Fixture
 
         // Figure 1
         $figure = new Figure();
-        $figure->setName('Le straight air');
+        $figure->setName('Straight air');
         $figure->setDescription('Tout comme le 50-50 sur une box ou un rail, la réussite d’un saut dépend du respect de certains principes : bien vous positionner dans l’axe pour le décollage, maintenir votre base bien plate à l’approche du tremplin, et réaliser un ollie au moment où votre planche quitte le bord. Maintenir votre base à plat, vos genoux fléchis et votre torse bien droit constituent des éléments clés pour conserver son équilibre lors d’un saut.');
         $figure->setCategory($categoryBf);
         foreach ($imagesStraight as $image) {
@@ -156,7 +158,7 @@ class AppFixtures extends Fixture
 
         // Figure 6
         $figure = new Figure();
-        $figure->setName('Le ride en switch');
+        $figure->setName('Ride-switch');
         $figure->setDescription('Bien que rider en switch ne soit pas nécessairement une vraie figure de snowboard, c\'est un composant fondamental de bien d\'autres figures qui vaut certainement la peine d\'être appris. Rider en switch consiste simplement à faire du snowboard en descente dans la position opposée à celle que l\'on a l\'habitude d\'adopter : si l\'on ride normalement (pied gauche en avant), alors le ride en switch signifierait effectuer une descente de façon opposée (pied droit en avant). Si vous arrivez à maîtriser le ride en switch, vous serez à l\'aise pour réaliser des sauts et des rails ou pour atterrir en switch.');
         $figure->setCategory($categoryBf);
         foreach ($imagesOllie as $image) {
@@ -173,7 +175,7 @@ class AppFixtures extends Fixture
 
         // Figure 7
         $figure = new Figure();
-        $figure->setName('Dual Snowboard');
+        $figure->setName('Dual-Snow');
         $figure->setDescription('Assez décrié, le dual snowboard est considéré par beaucoup comme l\'une des inventions les plus inutiles (et ridicules) de ces dernières années dans le monde de la glisse. Concrètement il s\'agit de mini-patinettes spécialement conçues pour les tricks. Voilà voilà.');
         $figure->setCategory($categoryBf);
         foreach ($imagesFifty as $image) {
@@ -262,11 +264,86 @@ class AppFixtures extends Fixture
         $user = new User();
         $user->setUsername('ADMIN');
         $user->setEmail('admin@example.com');
+        $user->setImageName('admin.jpg');
         $user->setPassword('azerty');
         $hash = $this->encoder->hashPassword($user, $user->getPassword());
         $user->setPassword($hash);
         $user->setActive(true);
         $manager->persist($user);
+
+        $manager->flush();
+
+        $commentForum = new Comment();
+        $commentForum->setContent("Bonjour");
+        $commentForum->setCreatedAt(new DateTimeImmutable());
+        $commentForum->setUser($user);
+
+        $commentForum2 = new Comment();
+        $commentForum2->setContent("Test 1");
+        $commentForum2->setCreatedAt(new DateTimeImmutable());
+        $commentForum2->setUser($user);
+
+        $commentForum3 = new Comment();
+        $commentForum3->setContent("Test 1");
+        $commentForum3->setCreatedAt(new DateTimeImmutable());
+        $commentForum3->setUser($user);
+
+        $commentForum3 = new Comment();
+        $commentForum3->setContent("Test 1");
+        $commentForum3->setCreatedAt(new DateTimeImmutable());
+        $commentForum3->setUser($user);
+
+        $commentForum4 = new Comment();
+        $commentForum4->setContent("Test 1");
+        $commentForum4->setCreatedAt(new DateTimeImmutable());
+        $commentForum4->setUser($user);
+
+        $commentForum5 = new Comment();
+        $commentForum5->setContent("Test 1");
+        $commentForum5->setCreatedAt(new DateTimeImmutable());
+        $commentForum5->setUser($user);
+
+        $commentForum6 = new Comment();
+        $commentForum6->setContent("Test 1");
+        $commentForum6->setCreatedAt(new DateTimeImmutable());
+        $commentForum6->setUser($user);
+
+        $commentForum7 = new Comment();
+        $commentForum7->setContent("Test 1");
+        $commentForum7->setCreatedAt(new DateTimeImmutable());
+        $commentForum7->setUser($user);
+
+        $commentForum8 = new Comment();
+        $commentForum8->setContent("Test 1");
+        $commentForum8->setCreatedAt(new DateTimeImmutable());
+        $commentForum8->setUser($user);
+
+        $commentForum9 = new Comment();
+        $commentForum9->setContent("Test 1");
+        $commentForum9->setCreatedAt(new DateTimeImmutable());
+        $commentForum9->setUser($user);
+
+        $commentForum10 = new Comment();
+        $commentForum10->setContent("Test 1");
+        $commentForum10->setCreatedAt(new DateTimeImmutable());
+        $commentForum10->setUser($user);
+
+        $commentForum11 = new Comment();
+        $commentForum11->setContent("Test 1");
+        $commentForum11->setCreatedAt(new DateTimeImmutable());
+        $commentForum11->setUser($user);
+
+        $manager->persist($commentForum);
+        $manager->persist($commentForum2);
+        $manager->persist($commentForum3);
+        $manager->persist($commentForum4);
+        $manager->persist($commentForum5);
+        $manager->persist($commentForum6);
+        $manager->persist($commentForum7);
+        $manager->persist($commentForum8);
+        $manager->persist($commentForum9);
+        $manager->persist($commentForum10);
+        $manager->persist($commentForum11);
 
         $manager->flush();
     }
