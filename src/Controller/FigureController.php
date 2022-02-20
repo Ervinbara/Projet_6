@@ -78,7 +78,7 @@ class FigureController extends AbstractController
 
         if ($request->isXmlHttpRequest()) {
 
-            return $this->render('figure/comments_forum.html.twig', [
+            return $this->render('figure/_comments_forum.html.twig', [
                 'commentForm' => $form->createView(),
                 'comments' => $commentForum,
                 'coms' => $coms,
