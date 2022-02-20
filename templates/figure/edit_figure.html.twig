@@ -57,21 +57,8 @@
                     {{ include("figure/_video.html.twig", {form: video }) }}
                 </div>
             {% endfor %}
-            {# Affiche les miniatures de vidéo lors de la modification #}
 
-            {#            {% endif %} #}
         </div>
-
-        {#        <div class="wrapper d-flex flex-wrap"> #}
-        {#            {% for video in figure.videos %} #}
-        {#                <div class="edit_figure_image"> #}
-        {#                    <iframe width="150" height="120" src="{{video.name}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> #}
-        {#                    <a class="btn btn-danger" href="{{ path('figure_delete_video', {id: video.id}) }}" data-delete #}
-        {#                       data-token="{{ csrf_token('delete' ~ video.id ) }}">Supprimer</a> #}
-        {#                </div> #}
-        {#            {% endfor %} #}
-        {#        </div> #}
-
 
         <br/>
         <button type="submit" class="btn btn-success">Ajouter ce trick</button>

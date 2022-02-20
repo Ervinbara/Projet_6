@@ -25,12 +25,12 @@ class FigureController extends AbstractController
      */
     public function index(FigureRepository $repo, Request $request, int $page = 0)
     {
-        // Par défaut afficher les 10 figures les plus récentes
-        $figures = $repo->findBy([], ['id' => 'DESC'], 9, $page);
+        // Par défaut afficher les 8 figures les plus récentes
+        $figures = $repo->findBy([], ['id' => 'DESC'], 8, $page);
         $page = $page + 8;
 
         // Récupération du nombre total de tricks pour établir une limite lors du clique sur le bouton voir plus
-        $total_tricks = count($repo->findAll());
+        $total_tricks = $repo->countFigure();
 
         if ($request->isXmlHttpRequest()) {
 

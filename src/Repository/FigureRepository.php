@@ -47,4 +47,12 @@ class FigureRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function countFigure(){
+        return $this->createQueryBuilder('f')
+            ->select('count(f.id)')
+            ->getQuery()
+            /* On renvoi qu'une seul ligne, donc pas besoin de tableau => gain de perfomance */
+            ->getSingleScalarResult();
+    }
 }
