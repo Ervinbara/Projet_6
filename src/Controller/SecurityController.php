@@ -52,7 +52,7 @@ class SecurityController extends AbstractController
 
             // Envoi du mail d'activation du compte à l'utilisateur
             $email = (new Email())
-                ->to('ervinbara17@gmail.com')
+                ->to($user->getEmail())
                 ->subject('Time for Symfony Mailer!')
                 ->text('Sending emails is fun again!')
                 ->html($twig->render('emails/activation.html.twig', ['token' => $user->getTokenActivation()]));
@@ -85,6 +85,7 @@ class SecurityController extends AbstractController
         // Récupération de la date du jour
         $date = new \DateTime();
 
+        // Si la date du jour où l'on clique sur le lien d'activation est supérieur à la date du token d'expiration, le token n'est plus valide
         if ($date > $user->getTokenExpiration()) {
             $this->addFlash('warning', 'Le Token n\'est plus valide');
             return $this->redirectToRoute('security_token_expiration');
@@ -151,7 +152,7 @@ class SecurityController extends AbstractController
 
             // On génère l'e-mail
             $email = (new Email())
-                ->to('ervinbara17@gmail.com')
+                ->to($user->getEmail())
                 ->subject('Time for Symfony Mailer!')
                 ->text('Bonjour, Une demande de réinitialisation de mot de passe a été effectuée. Veuillez cliquer sur le lien suivant : ' . $url);
             // ->html($twig->render('security/reset_password.html.twig', ['token' => $user->getTokenActivation()] ));
@@ -167,8 +168,6 @@ class SecurityController extends AbstractController
         // On envoie le formulaire à la vue
         return $this->render('security/forgot_password.html.twig', ['emailForm' => $form->createView()]);
     }
-
-    // // // 
 
     /**
      * @Route("/token_expiration", name="security_token_expiration")
@@ -219,7 +218,7 @@ class SecurityController extends AbstractController
 
             // Envoi du mail d'activation du compte à l'utilisateur
             $email = (new Email())
-                ->to('ervinbara17@gmail.com')
+                ->to($user->getEmail())
                 ->subject('Time for Symfony Mailer!')
                 ->text('Sending emails is fun again!')
                 ->html($twig->render('emails/activation.html.twig', ['token' => $user->getTokenActivation()]));

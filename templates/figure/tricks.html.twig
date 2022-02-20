@@ -10,6 +10,8 @@
                 {% if figure.images | length > 0 %}
                     <img class="banner-img" src="{{ asset('/images/figures/uploads/'~figure.images[0].name) }}"
                          alt="figure" width="150">
+                {% else %}
+                    <img class="banner-img" src="{{ asset('/images/figures/uploads/default.jpg') }}" alt="figure">
                 {% endif %}
             </a>
         </div>
