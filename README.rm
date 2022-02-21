@@ -41,7 +41,7 @@ Etape 2 : Installez les dépendances du projet avec : composer install
 Etape 3 : Remplir le fichier .env
 
 Etape 4 : Créer une base de données sur votre SGBD avec la commande : php bin/console doctrine:database:create
-
+            Créez les tables de la base de données : php bin/console doctrine:schema:update --force
 
 ( Facultatif ) Fixtures :
 Pour créer un jeu de donnée :
