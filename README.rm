@@ -47,6 +47,11 @@ Etape 4 : Créer une base de données sur votre SGBD avec la commande : php bin/
 Pour créer un jeu de donnée :
     php bin/console doctrine:fixtures:load
 
+Ajout de vidéo :
+Youtube : Cliquer sur Partager, ensuite Intégrer et copier l'iframe.
+
+Dailymotion : Cliquer sur Partager, ensuite Vidéo Intégrée, cocher off pour lecture auto et copier la div.
+
 Exécution en développement : 
 Faire un cd public, pour se mettre dans le dossier public
 php -S localhost:8000,  le projet sera disponible sur http://localhost:8000/

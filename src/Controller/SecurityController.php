@@ -237,6 +237,7 @@ class SecurityController extends AbstractController
 
 
     /**
+     * Page afficher après le clique sur le lien dans le mail
      * @Route("/reset_password/{token}", name="security_reset_password")
      */
     public function resetPassword(
@@ -264,7 +265,7 @@ class SecurityController extends AbstractController
             // On chiffre le mot de passe
             $user->setPassword($encoder->hashPassword($user, $request->request->get('password')));
 
-            // On stocke en base 
+            // On stocke en base
             $manager->persist($user);
             $manager->flush();
 
@@ -277,7 +278,6 @@ class SecurityController extends AbstractController
             // Si on n'a pas reçu les données, on affiche le formulaire
             return $this->render('security/reset_password.html.twig', ['token' => $token]);
         }
-
     }
 
     /**
