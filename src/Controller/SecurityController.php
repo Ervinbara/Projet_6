@@ -137,7 +137,7 @@ class SecurityController extends AbstractController
             // On génère un token
             $token = $tokenGenerator->generateToken();
 
-            // On essaie d'écrire le token en base de données
+            // On écrit le token en base de données
             try {
                 $user->setTokenActivation($token);
                 $manager->persist($user);
@@ -155,7 +155,6 @@ class SecurityController extends AbstractController
                 ->to($user->getEmail())
                 ->subject('Time for Symfony Mailer!')
                 ->text('Bonjour, Une demande de réinitialisation de mot de passe a été effectuée. Veuillez cliquer sur le lien suivant : ' . $url);
-            // ->html($twig->render('security/reset_password.html.twig', ['token' => $user->getTokenActivation()] ));
             $mailer->send($email);
 
             // On crée le message flash de confirmation

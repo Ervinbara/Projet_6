@@ -49,72 +49,10 @@
         </div>
     </div>
 
-
-    {#    <div class="visual-content wrapper"> #}
-
-    {# Multiple slider images #}
-    {#        <div class="container"> #}
-    {#            <div class="carousel slide multi-item-carousel" id="theCarousel"> #}
-    {#                    <div class="carousel-inner row w-100 mx-auto"> #}
-    {#                        <div class="carousel-item active col-md-3"> #}
-    {#                            <img src="{{ asset('/images/figures/uploads/'~figure.images[0].name) }}" width="200" height="130" alt="figure" class="img-fluid mx-auto d-block"> #}
-    {#                        </div> #}
-    {#                        {% for image in figure.images %} #}
-    {#                            <div class="carousel-item col-md-3"> #}
-    {#                                <img src="{{ asset('/images/figures/uploads/'~image.name) }}" width="200" height="130" alt="figure" class="img-fluid mx-auto d-block"> #}
-    {#                            </div> #}
-    {#                        {% endfor %} #}
-    {#                    </div> #}
-    {#                    <a class="carousel-control-prev" href="#theCarousel" role="button" data-slide="prev"> #}
-    {#                        <span class="carousel-control-prev-icon" aria-hidden="true"></span> #}
-    {#                        <span class="sr-only">Previous</span> #}
-    {#                    </a> #}
-    {#                    <a class="carousel-control-next" href="#theCarousel" role="button" data-slide="next"> #}
-    {#                        <span class="carousel-control-next-icon" aria-hidden="true"></span> #}
-    {#                        <span class="sr-only">Next</span> #}
-    {#                    </a> #}
-    {#            </div> #}
-    {#        </div> #}
-
-    {#        #}{# Multiple slider videos #}
-    {#        <div class="container"> #}
-    {#            <div class="carousel slide multi-item-carousel" id="theCarousel-video"> #}
-    {#                <div class="carousel-inner row w-100 mx-auto"> #}
-    {#                    <div class="carousel-item active col-md-3"> #}
-    {#                        <iframe width="200" height="130" src="https://www.youtube.com/embed/{{figure.videos[0].name}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> #}
-    {#                    </div> #}
-    {#                    {% for video in figure.videos %} #}
-    {#                        <div class="carousel-item col-md-3"> #}
-    {#                            <iframe width="200" height="130" src="https://www.youtube.com/embed/{{video.name}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> #}
-    {#                        </div> #}
-    {#                    {% endfor %} #}
-    {#                </div> #}
-    {#                <a class="carousel-control-prev" href="#theCarousel-video" role="button" data-slide="prev"> #}
-    {#                    <span class="carousel-control-prev-icon" aria-hidden="true"></span> #}
-    {#                    <span class="sr-only">Previous</span> #}
-    {#                </a> #}
-    {#                <a class="carousel-control-next" href="#theCarousel-video" role="button" data-slide="next"> #}
-    {#                    <span class="carousel-control-next-icon" aria-hidden="true"></span> #}
-    {#                    <span class="sr-only">Next</span> #}
-    {#                </a> #}
-    {#            </div> #}
-    {#        </div> #}
-
     <h2>Description : </h2>
     <p>
         {{ figure.description|raw }}
     </p>
-    {#    <div class="info"> #}
-    {#        {% if figure.category.title is defined %} #}
-    {#            <h3>Catégorie : {{ figure.category.title }}</h3> #}
-    {#        {% else %} #}
-    {#            <h3> Catégorie : Non repertorié</h3> #}
-    {#        {% endif %} #}
-    {#        <h3>Crée le : {{ figure.createdAt|date('d/m/Y') }} à {{ figure.createdAt|date('H:i:s') }}</h3> #}
-    {#        {% if figure.modifyAt is not empty %} #}
-    {#            <h3>Modifier le : {{ figure.modifyAt|date('d/m/Y') }} à {{ figure.modifyAt|date('H:i:s') }}</h3> #}
-    {#        {% endif %} #}
-    {#    </div> #}
 
     <ul class="tags">
         {% if figure.category.title is defined %}

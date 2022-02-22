@@ -28,6 +28,7 @@ class Figure
 
     /**
      * @ORM\Column(type="text")
+     * @ORM\JoinColumn(nullable=true)
      */
     private $description;
 

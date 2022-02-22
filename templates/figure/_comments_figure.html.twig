@@ -9,7 +9,8 @@
                     <small class="font-weight">{{ comment.content | raw }}</small>
                 </span>
             </div>
-            <small> {{ comment.createdAt | date('d/m/Y') }}</small>
+            <small> {{ comment.createdAt | date('d/m/Y') }} à {{ comment.createdAt|date('H:i:s') }}</small>
+
         </div>
         <div class="action d-flex justify-content-between mt-2 align-items-center">
             <div class="icons align-items-center"><i class="fa fa-check-circle-o check-icon text-primary"></i></div>
