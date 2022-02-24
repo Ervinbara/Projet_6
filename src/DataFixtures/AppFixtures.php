@@ -273,6 +273,18 @@ class AppFixtures extends Fixture
 
         $manager->flush();
 
+        $user2 = new User();
+        $user2->setUsername('USER');
+        $user2->setEmail('user@example.com');
+        $user2->setImageName('user.jpg');
+        $user2->setPassword('azerty');
+        $hash2 = $this->encoder->hashPassword($user2, $user2->getPassword());
+        $user2->setPassword($hash2);
+        $user2->setActive(true);
+        $manager->persist($user2);
+
+        $manager->flush();
+
         $commentForum = new Comment();
         $commentForum->setContent("Bonjour");
         $commentForum->setCreatedAt(new DateTimeImmutable());
@@ -281,7 +293,7 @@ class AppFixtures extends Fixture
         $commentForum2 = new Comment();
         $commentForum2->setContent("Test 1");
         $commentForum2->setCreatedAt(new DateTimeImmutable());
-        $commentForum2->setUser($user);
+        $commentForum2->setUser($user2);
 
         $commentForum3 = new Comment();
         $commentForum3->setContent("Test 1");
@@ -296,7 +308,7 @@ class AppFixtures extends Fixture
         $commentForum4 = new Comment();
         $commentForum4->setContent("Test 1");
         $commentForum4->setCreatedAt(new DateTimeImmutable());
-        $commentForum4->setUser($user);
+        $commentForum4->setUser($user2);
 
         $commentForum5 = new Comment();
         $commentForum5->setContent("Test 1");
@@ -306,12 +318,12 @@ class AppFixtures extends Fixture
         $commentForum6 = new Comment();
         $commentForum6->setContent("Test 1");
         $commentForum6->setCreatedAt(new DateTimeImmutable());
-        $commentForum6->setUser($user);
+        $commentForum6->setUser($user2);
 
         $commentForum7 = new Comment();
         $commentForum7->setContent("Test 1");
         $commentForum7->setCreatedAt(new DateTimeImmutable());
-        $commentForum7->setUser($user);
+        $commentForum7->setUser($user2);
 
         $commentForum8 = new Comment();
         $commentForum8->setContent("Test 1");
@@ -331,7 +343,7 @@ class AppFixtures extends Fixture
         $commentForum11 = new Comment();
         $commentForum11->setContent("Test 1");
         $commentForum11->setCreatedAt(new DateTimeImmutable());
-        $commentForum11->setUser($user);
+        $commentForum11->setUser($user2);
 
         $manager->persist($commentForum);
         $manager->persist($commentForum2);

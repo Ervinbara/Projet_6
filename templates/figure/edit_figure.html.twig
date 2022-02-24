@@ -30,6 +30,7 @@
         <h6>Catégorie de la figure : {{ form_widget(form.category) }}</h6>
         <br/>
         {# Ajout de d'images #}
+        <h6>Images : </h6>
         {{ form_widget(form.images) }}
         <div class="wrapper d-flex flex-wrap">
             {% for image in figure.images %}
